@@ -1,0 +1,20 @@
+# Virtual environment
+.venv/
+env/
+venv/
+
+# Python cache
+__pycache__/
+
+# Model files (add later when needed)
+*.bin
+*.pt
+
+# Logs
+logs/
+
+# Jupyter checkpoints
+.ipynb_checkpoints/
+
+# Node modules (if frontend grows)
+node_modules/
