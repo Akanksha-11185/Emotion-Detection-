@@ -1,20 +1,76 @@
-# Virtual environment
+###############################################
+# PYTHON / BACKEND
+###############################################
+
+# Virtual environments
 .venv/
 env/
 venv/
 
 # Python cache
 __pycache__/
+*.pyc
+*.pyo
+*.pyd
 
-# Model files (add later when needed)
-*.bin
-*.pt
+# Local environment config (do NOT upload secrets)
+.env
+.env.local
 
 # Logs
 logs/
+*.log
 
-# Jupyter checkpoints
+# Compiled model files
+*.bin
+*.pt
+*.pth
+*.ckpt
+
+# HuggingFace caches
+cache/
+huggingface/
+transformers/
+
+###############################################
+# DATA
+###############################################
+
+# Raw datasets (large files)
+emotion-support-app/data/raw/
+emotion-support-app/data/processed/
+emotion-support-app/data/annotations/
+
+###############################################
+# FRONTEND / REACT (Vite)
+###############################################
+
+# Node modules
+node_modules/
+
+# Build output
+dist/
+
+# Vite cache
+.vite/
+
+# Optional: editor auto-save folders
+.vscode/
+.idea/
+
+###############################################
+# JUPYTER NOTEBOOKS
+###############################################
+
 .ipynb_checkpoints/
 
-# Node modules (if frontend grows)
-node_modules/
+###############################################
+# PROJECT-SPECIFIC
+###############################################
+
+# Do NOT commit trained model directories
+emotion-support-app/models/goemotion_roberta_best/
+emotion-support-app/models/saved_checkpoints/
+
+# Ignore uploads during development
+uploads/

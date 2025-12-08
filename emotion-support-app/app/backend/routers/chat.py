@@ -21,10 +21,10 @@ def chat_reply(req: ChatRequest):
     pre = preprocess_text(text, remove_sw=False)
     model_out = predict(pre, threshold=req.threshold)
 
-    # model_out["top_k"] is [(label,score), ...]
+    
     safety = safety_check(text, model_out)
 
-    # If severe, do not generate a normal reply — return escalation hint
+    
     if not safety["safe"]:
         return {
             "action": "escalate",
@@ -33,7 +33,7 @@ def chat_reply(req: ChatRequest):
             "severity": safety["severity"]
         }
 
-    # Otherwise generate empathetic reply
+   
     resp_text = generate_response(model_out.get("top_k", []), severity=safety["severity"])
     return {
         "action": "reply",
