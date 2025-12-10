@@ -12,7 +12,7 @@ import numpy as np
 from transformers import AutoTokenizer, AutoModelForSequenceClassification
 
 # Change this if you prefer a different HF checkpoint
-HF_MODEL = os.environ.get("HF_EMOTION_MODEL", "bhadresh-savani/roberta-base-go-emotions")
+HF_MODEL = "SamLowe/roberta-base-go_emotions"
 # Optional: override to use your saved local model folder:
 # HF_MODEL = "models/goemotion_roberta_best"
 
@@ -83,3 +83,4 @@ def predict(text: str, threshold: float = 0.5, top_k: int = 5):
         "preds_multi_hot": multi_hot.tolist(),
         "top_k": top
     }
+
