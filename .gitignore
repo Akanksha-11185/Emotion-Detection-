@@ -1,76 +1,45 @@
-###############################################
-# PYTHON / BACKEND
-###############################################
-
-# Virtual environments
+# Python / Backend
 .venv/
 env/
 venv/
 
-# Python cache
 __pycache__/
 *.pyc
 *.pyo
 *.pyd
 
-# Local environment config (do NOT upload secrets)
-.env
-.env.local
-
 # Logs
 logs/
 *.log
 
-# Compiled model files
-*.bin
-*.pt
-*.pth
+# Data / models
+data/raw/
+models/
+saved_checkpoints/
 *.ckpt
+*.pt
 
-# HuggingFace caches
-cache/
-huggingface/
-transformers/
+# Env / secrets
+.env
+.env.*
+secrets.*
 
-###############################################
-# DATA
-###############################################
-
-# Raw datasets (large files)
-emotion-support-app/data/raw/
-emotion-support-app/data/processed/
-emotion-support-app/data/annotations/
-
-###############################################
-# FRONTEND / REACT (Vite)
-###############################################
-
-# Node modules
+# Node / frontend
 node_modules/
+package-lock.json
+package.json
+emotion-site/
+emotion-support-app/
 
-# Build output
-dist/
+# Notebooks / datasets / archives
+notebooks/
+*.ipynb
+*.tsv
+*.zip
+archive.zip
 
-# Vite cache
-.vite/
-
-# Optional: editor auto-save folders
+# Misc
 .vscode/
-.idea/
-
-###############################################
-# JUPYTER NOTEBOOKS
-###############################################
-
-.ipynb_checkpoints/
-
-###############################################
-# PROJECT-SPECIFIC
-###############################################
-
-# Do NOT commit trained model directories
-emotion-support-app/models/goemotion_roberta_best/
-emotion-support-app/models/saved_checkpoints/
-
-# Ignore uploads during development
-uploads/
+.DS_Store
+Thumbs.db
+str
