@@ -3,6 +3,8 @@ inference.py
 Simple inference wrapper for the fine-tuned multi-label model.
 Returns top-K predicted labels with confidences.
 """
+from dotenv import load_dotenv
+load_dotenv()
 
 import torch
 import numpy as np

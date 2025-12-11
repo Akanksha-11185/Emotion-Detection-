@@ -1,5 +1,6 @@
 // src/api/chatApi.js
 const API_BASE = import.meta.env.VITE_API_BASE || "http://127.0.0.1:8000";
+const API_KEY = import.meta.env.VITE_API_KEY || "dev-key-change-me";
 
 /**
  * Helper to POST JSON and return parsed JSON or throw error
@@ -11,18 +12,36 @@ async function postJson(path, body, timeoutMs = 15000) {
   try {
     const res = await fetch(`${API_BASE}${path}`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        "x-api-key": API_KEY,
+      },
       signal: controller.signal,
       body: JSON.stringify(body),
     });
     clearTimeout(timer);
-    if (!res.ok) {
-      const txt = await res.text().catch(() => "");
-      throw new Error(`API Error (${res.status}): ${txt}`);
+    const text = await res.text().catch(() => "");
+    let payload = null;
+    try {
+      payload = text ? JSON.parse(text) : null;
+    } catch {
+      payload = text;
     }
-    return await res.json();
+    if (!res.ok) {
+      const err = new Error(payload?.detail || `API Error (${res.status})`);
+      err.status = res.status;
+      err.payload = payload;
+      throw err;
+    }
+    return payload;
   } catch (err) {
     clearTimeout(timer);
+    // Normalize abort error
+    if (err.name === "AbortError") {
+      const e = new Error("Request timed out");
+      e.status = 408;
+      throw e;
+    }
     throw err;
   }
 }
@@ -37,10 +56,13 @@ export async function analyzeEmotion(text) {
 
 /**
  * Calls backend chat reply endpoint (POST /chat/reply)
- * Expects reply shape { reply: string, emotion: {...}, flagged: bool }
+ * Backend returns shape:
+ * { action: "reply"|"escalate", reply?, model?, safety?, message? }
  */
 export async function getChatReply(text, session_id = null) {
-  return postJson("/chat/reply", { text, session_id });
+  const body = { text };
+  if (session_id) body.session_id = session_id;
+  return postJson("/chat/reply", body, 20000);
 }
 
 /**
@@ -48,7 +70,6 @@ export async function getChatReply(text, session_id = null) {
  */
 export function mockPredictLocal(text) {
   const labels = ["joy", "sadness", "anger", "fear", "neutral"];
-  // very simple pseudo-random probabilities
   const seed = (text || "").length % 10;
   const probs = labels.map((_, i) =>
     Math.max(0, Math.sin(i + seed) * 0.5 + 0.5)
@@ -72,7 +93,6 @@ export function mockChatLocal(text, prediction) {
       flagged: true,
     };
   }
-  // short supportive templates
   const replies = [
     "Thanks for sharing — that sounds important. Can you tell me a bit more?",
     "I hear you. How long have you been feeling like this?",

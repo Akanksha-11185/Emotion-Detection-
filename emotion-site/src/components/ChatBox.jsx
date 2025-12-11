@@ -46,7 +46,6 @@ export default function ChatBox({ onPredict = null }) {
   const messagesRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Session ID
   const [sessionId] = useState(() => {
     try {
       const s = localStorage.getItem("anon_session_id");
@@ -59,7 +58,6 @@ export default function ChatBox({ onPredict = null }) {
     }
   });
 
-  // Auto-scroll to bottom
   useEffect(() => {
     if (!messagesRef.current) return;
     messagesRef.current.scrollTo({
@@ -68,7 +66,6 @@ export default function ChatBox({ onPredict = null }) {
     });
   }, [messages, loading]);
 
-  // Handle send message
   async function handleSend() {
     setErrorText("");
     const text = input.trim();
@@ -107,30 +104,69 @@ export default function ChatBox({ onPredict = null }) {
       let chatReply;
       try {
         chatReply = await getChatReply(text, sessionId);
+        // Expect shape: { action, reply, model, safety, message }
       } catch (err) {
         console.warn("getChatReply failed, using mockChatLocal:", err);
         chatReply = mockChatLocal(text, pred);
       }
 
+      // Normalize chatReply for older mock shapes:
+      if (chatReply && chatReply.action === undefined) {
+        // legacy mock: { reply, flagged }
+        if (chatReply.flagged) {
+          chatReply = {
+            action: "escalate",
+            reply: chatReply.reply,
+            flagged: true,
+            model: pred,
+            safety: { safe: false, severity: "severe", keywords: [] },
+          };
+        } else {
+          chatReply = {
+            action: "reply",
+            reply: chatReply.reply,
+            model: pred,
+            safety: { safe: true, severity: "normal", keywords: [] },
+          };
+        }
+      }
+
+      // Build bot message
+      const botText =
+        chatReply.action === "reply"
+          ? chatReply.reply
+          : chatReply.reply ||
+            "⚠️ We detected potential high distress. This message has been flagged for review.";
+
       const botMsg = {
         id: `b-${Date.now()}`,
         who: "bot",
-        text: chatReply.reply || "Sorry — something went wrong.",
+        text: botText,
         timestamp: new Date(),
       };
 
       setMessages((m) => [...m, botMsg]);
 
-      if (chatReply.flagged) {
+      // If escalate, add system note
+      if (chatReply.action === "escalate") {
         setMessages((m) => [
           ...m,
           {
             id: `sys-${Date.now()}`,
             who: "system",
-            text: "⚠️ Message flagged for review (human team).",
+            text: "⚠️ Message flagged for human review. If you are in immediate danger, contact emergency services.",
             timestamp: new Date(),
           },
         ]);
+      }
+
+      // Inform parent about prediction (so EmotionPanel updates)
+      if (onPredict && chatReply.model) {
+        try {
+          onPredict(chatReply.model);
+        } catch {
+          /* ignore */
+        }
       }
     } catch (err) {
       console.error(err);
