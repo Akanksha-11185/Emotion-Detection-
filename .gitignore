@@ -74,3 +74,12 @@ emotion-support-app/models/saved_checkpoints/
 
 # Ignore uploads during development
 uploads/
+emotion-site/
+emotion-support-app/
+models/
+notebooks/
+*.tsv
+*.zip
+package-lock.json
+package.json
+str/
