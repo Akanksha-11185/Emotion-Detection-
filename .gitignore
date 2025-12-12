@@ -1,45 +1,10 @@
-# Python / Backend
-.venv/
-env/
-venv/
-
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
-
-# Logs
-logs/
-*.log
-
-# Data / models
-data/raw/
-models/
-saved_checkpoints/
-*.ckpt
-*.pt
-
-# Env / secrets
-.env
-.env.*
-secrets.*
-
-# Node / frontend
-node_modules/
-package-lock.json
-package.json
-emotion-site/
-emotion-support-app/
-
-# Notebooks / datasets / archives
-notebooks/
-*.ipynb
-*.tsv
-*.zip
-archive.zip
-
-# Misc
-.vscode/
-.DS_Store
-Thumbs.db
-str
+env/ 
+.venv/ 
+.env 
+logs/ 
+*.pyc 
+__pycache__/ 
+.idea/ 
+.vscode/ 
+*.sqlite3 
+*.log 
