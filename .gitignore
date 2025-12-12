@@ -43,3 +43,9 @@ archive.zip
 .DS_Store
 Thumbs.db
 str
+
+emotion-site/node_modules
+emotion-site/.vite
+emotion-site/dist
+emotion-site/.DS_Store
+emotion-site/*.log
