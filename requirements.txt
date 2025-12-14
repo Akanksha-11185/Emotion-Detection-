@@ -1,7 +1,10 @@
 fastapi==0.95.2
+starlette>=0.27,<0.37
+httpx<0.25
+
 uvicorn==0.23.1
 transformers==4.35.0
-torch       # latest CPU or GPU build; install via pip normally
+torch
 sentencepiece
 huggingface-hub
 datasets
@@ -18,7 +21,8 @@ pytest
 tqdm
 tokenizers
 gunicorn
+redis
+
 # optional dev/test
 black
 flake8
-redis

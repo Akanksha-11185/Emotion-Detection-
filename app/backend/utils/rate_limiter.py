@@ -1,57 +1,54 @@
-import time
+# app/backend/utils/rate_limiter.py
 import os
+import time
 from fastapi import HTTPException, Request
-from redis import Redis
+from collections import defaultdict
 
-REDIS_HOST = os.getenv("REDIS_HOST", "127.0.0.1")
-REDIS_PORT = int(os.getenv("REDIS_PORT", 6379))
+USE_REDIS = os.getenv("USE_REDIS", "false").lower() == "true"
 
-redis_client = Redis(host=REDIS_HOST, port=REDIS_PORT, decode_responses=True)
+# =========================
+# In-memory store (Dev/Test)
+# =========================
+_REQUEST_HISTORY = defaultdict(list)
 
-def rate_limit(
-    key_prefix: str,
+def verify_rate_limit(
+    user_id: str,
     limit: int = 10,
-    window_seconds: int = 30,
+    window: int = 60,
 ):
+    now = time.time()
+    history = _REQUEST_HISTORY[user_id]
+
+    history[:] = [t for t in history if now - t < window]
+
+    if len(history) >= limit:
+        raise HTTPException(status_code=429, detail="Rate limit exceeded")
+
+    history.append(now)
+    return True
+
+# =========================
+# FastAPI Dependency
+# =========================
+def rate_limit(key_prefix: str, limit: int = 10, window_seconds: int = 60):
     async def dependency(request: Request):
-        client_ip = request.client.host
-        key = f"rl:{key_prefix}:{client_ip}"
+        if not USE_REDIS:
+            client = request.client.host
+            verify_rate_limit(client, limit, window_seconds)
+            return True
 
-        current = redis_client.get(key)
+        # Redis logic (ONLY for prod)
+        from redis import Redis
+        redis = Redis(host="127.0.0.1", port=6379, decode_responses=True)
 
-        if current:
-            current = int(current)
-        else:
-            redis_client.set(key, 0, ex=window_seconds)
-            current = 0
+        key = f"rl:{key_prefix}:{request.client.host}"
+        count = redis.get(key)
 
-        # If user exceeded limit → block
-        if current >= limit:
-            ttl = redis_client.ttl(key)
-            raise HTTPException(
-                status_code=429,
-                detail=f"Rate limit exceeded. Try again in {ttl} seconds.",
-                headers={
-                    "X-RateLimit-Limit": str(limit),
-                    "X-RateLimit-Remaining": "0",
-                    "X-RateLimit-Reset": str(ttl),
-                }
-            )
+        if count and int(count) >= limit:
+            raise HTTPException(status_code=429, detail="Rate limit exceeded")
 
-        # Increment usage
-        redis_client.incr(key)
-
-        # Calculate remaining quota and reset time
-        remaining = max(0, limit - current - 1)
-        ttl = redis_client.ttl(key)
-
-        # Attach headers to the Request object so the route can return them
-        request.state.rate_limit_headers = {
-            "X-RateLimit-Limit": str(limit),
-            "X-RateLimit-Remaining": str(remaining),
-            "X-RateLimit-Reset": str(ttl),
-        }
-
+        redis.incr(key)
+        redis.expire(key, window_seconds)
         return True
 
     return dependency
