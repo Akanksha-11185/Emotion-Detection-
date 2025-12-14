@@ -31,11 +31,9 @@ saved_checkpoints/
 # Frontend (Node) & Build
 # --------------------
 node_modules/
-emotion-site/node_modules
-emotion-site/.vite
-emotion-site/dist
-package-lock.json
-package.json
+emotion-site/node_modules/
+emotion-site/.vite/
+emotion-site/dist/
 
 # --------------------
 # IDE & OS Files
@@ -44,3 +42,15 @@ package.json
 .vscode/
 .DS_Store
 Thumbs.db
+
+# --------------------
+# Jupyter
+# --------------------
+.ipynb_checkpoints/
+
+# --------------------
+# Project specific
+# --------------------
+uploads/
+emotion-site/.env
+emotion-support-app/.env
