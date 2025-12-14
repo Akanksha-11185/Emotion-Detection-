@@ -34,7 +34,7 @@ function EmotionBar({ label, value, index }) {
   return (
     <div
       className="mb-3 animate-in fade-in slide-in-from-left-2 duration-300 transition-all hover:scale-[1.01] hover:brightness-105"
-      style={{ animationDelay: `${index * 80}ms` }}
+      style={{ animationDelay: `${index * 100}ms` }}
     >
       <div className="flex justify-between items-center text-xs text-slate-300 mb-1.5">
         <span className="flex items-center gap-2 font-medium">
@@ -60,7 +60,6 @@ function EmotionBar({ label, value, index }) {
 }
 
 export default function EmotionPanel({ prediction }) {
-  // If prediction is null/undefined, show the empty panel:
   if (!prediction) {
     return (
       <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 border border-slate-700/50 shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] cursor-pointer">
@@ -87,48 +86,9 @@ export default function EmotionPanel({ prediction }) {
     );
   }
 
-  // --- Defensive parsing: backend may return the model inside prediction.model
-  // Accept either: prediction = { top_k, probs, preds_multi_hot } OR
-  // prediction = { model: { top_k, probs, ... }, ... }
-  const model = prediction.model ? prediction.model : prediction;
-
-  // top_k might be a list of [label, score] OR something similar.
-  // Normalize top_k to [{label, score}, ...]
-  let topList = [];
-  if (Array.isArray(model.top_k)) {
-    topList = model.top_k
-      .map((item) => {
-        if (Array.isArray(item) && item.length >= 2) {
-          return { label: String(item[0]), score: Number(item[1]) };
-        }
-        if (item && item.label && (item.score || item.prob)) {
-          return {
-            label: String(item.label),
-            score: Number(item.score ?? item.prob),
-          };
-        }
-        return null;
-      })
-      .filter(Boolean);
-  }
-
-  // If top_k is empty but probs + LABEL list exists, try to construct top_k
-  if (topList.length === 0 && Array.isArray(model.probs)) {
-    // MODEL_LABELS are not available here -- we'll use indices names as "label_X"
-    topList = model.probs
-      .map((p, i) => ({ label: `label_${i}`, score: Number(p) }))
-      .sort((a, b) => b.score - a.score)
-      .slice(0, 5);
-  }
-
-  // Ensure sorted descending by score:
-  topList.sort((a, b) => b.score - a.score);
-
-  // Limit to top 5:
-  const top = topList.slice(0, 5);
-
-  const topEmotion = top[0]?.label || "neutral";
-  const topValue = top[0]?.score || 0;
+  const top = prediction.top_k || [];
+  const topEmotion = top[0]?.[0] || "neutral";
+  const topValue = top[0]?.[1] || 0;
 
   return (
     <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 border border-slate-700/50 shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] cursor-pointer">
@@ -165,13 +125,8 @@ export default function EmotionPanel({ prediction }) {
 
       {/* All Emotions */}
       <div className="space-y-1">
-        {top.map((t, idx) => (
-          <EmotionBar
-            key={t.label}
-            label={t.label}
-            value={t.score}
-            index={idx}
-          />
+        {top.map(([label, val], idx) => (
+          <EmotionBar key={label} label={label} value={val} index={idx} />
         ))}
       </div>
 
