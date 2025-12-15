@@ -15,7 +15,7 @@ router = APIRouter(tags=["chat"])
 
 class ChatRequest(BaseModel):
     text: str
-    threshold: float = 0.5
+    threshold: float = 0.1
 
 @router.post("/reply")
 async def chat_reply(
@@ -42,9 +42,12 @@ async def chat_reply(
         }
 
     reply = generate_response(
-        model_out.get("top_k", []),
-        severity=safety.get("severity"),
+        user_text=text,
+        emotions=model_out.get("top_k", []),
+        scores=model_out.get("scores", {}),
+        risk_level=safety.get("risk_level", "low"),
     )
+
 
     return {
         "status": "ok",

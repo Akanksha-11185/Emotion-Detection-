@@ -19,10 +19,13 @@ MODEL_DIR = os.path.join(BASE_DIR, "models", "goemotion_roberta_best")
 # -------------------------------------------------
 tokenizer = AutoTokenizer.from_pretrained(
     MODEL_DIR,
-    use_fast=False   # 🔑 avoids tokenizer enum crash
+    local_files_only=True,   # 🔑 THIS FIXES IT
+    use_fast=False
 )
-
-model = AutoModelForSequenceClassification.from_pretrained(MODEL_DIR)
+model = AutoModelForSequenceClassification.from_pretrained(
+    MODEL_DIR,
+    local_files_only=True    # 🔑 THIS TOO
+)
 model.eval()
 torch.set_grad_enabled(False)
 

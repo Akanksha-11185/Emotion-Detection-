@@ -4,6 +4,7 @@ import Header from "./components/Header";
 import ChatBox from "./components/ChatBox";
 import EmotionPanel from "./components/EmotionPanel";
 import { Shield, Brain, Heart } from "lucide-react";
+import AdminDashboard from "./components/AdminDashboard";
 
 export default function App() {
   const [prediction, setPrediction] = useState(null);
@@ -11,6 +12,7 @@ export default function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       <Header />
+      <AdminDashboard />;
 
       <main className="container mx-auto px-4 py-8">
         {/* Main Grid: Chat + Emotion Panel */}
