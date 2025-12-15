@@ -1,10 +1,13 @@
 const BASE_URL = "http://127.0.0.1:8000";
 
+const HEADERS = {
+  "Content-Type": "application/json",
+  "X-API-Key": "test-key",
+};
+
 export async function fetchEscalations() {
   const res = await fetch(`${BASE_URL}/admin/escalations`, {
-    headers: {
-      "x-api-key": "my-dev-key"
-    }
+    headers: HEADERS,
   });
 
   if (!res.ok) {
@@ -17,9 +20,7 @@ export async function fetchEscalations() {
 export async function markReviewed(id) {
   const res = await fetch(`${BASE_URL}/admin/review/${id}`, {
     method: "POST",
-    headers: {
-      "x-api-key": "my-dev-key"
-    }
+    headers: HEADERS,
   });
 
   if (!res.ok) {
