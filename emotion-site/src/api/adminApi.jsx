@@ -1,8 +1,11 @@
-const BASE_URL = "http://127.0.0.1:8000";
+// emotion-site/src/api/adminApi.jsx
+
+const BASE_URL = import.meta.env.VITE_API_BASE;
+const ADMIN_KEY = import.meta.env.VITE_ADMIN_API_KEY;
 
 const HEADERS = {
   "Content-Type": "application/json",
-  "X-API-Key": "test-key",
+  "x-api-key": ADMIN_KEY, // 🔐 admin key from env
 };
 
 export async function fetchEscalations() {

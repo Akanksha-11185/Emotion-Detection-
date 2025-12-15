@@ -1,0 +1,89 @@
+// src/pages/AnonymousPage.jsx
+import React, { useState } from "react";
+import ChatBox from "../components/ChatBox";
+import EmotionPanel from "../components/EmotionPanel";
+import { Shield, Brain, Heart } from "lucide-react";
+
+export default function AnonymousPage() {
+  const [prediction, setPrediction] = useState(null);
+
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 pt-20">
+      {/* Page Header */}
+      <div className="container mx-auto px-4 py-8">
+        <div className="text-center mb-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full mb-4">
+            <Shield className="w-4 h-4 text-blue-400" />
+            <span className="text-sm text-blue-300">
+              100% Anonymous & Secure
+            </span>
+          </div>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">
+            <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+              Anonymous Chat
+            </span>
+          </h1>
+          <p className="text-slate-400 max-w-2xl mx-auto">
+            Share your feelings in a safe, anonymous environment. Our AI will
+            analyze your emotions in real-time.
+          </p>
+        </div>
+
+        {/* Main Grid: Chat + Emotion Panel */}
+        <div className="grid lg:grid-cols-3 gap-6 mb-8">
+          {/* Chat Section - Takes 2 columns */}
+          <div className="lg:col-span-2">
+            <ChatBox onPredict={setPrediction} />
+          </div>
+
+          {/* Emotion Panel - Takes 1 column */}
+          <div className="lg:col-span-1">
+            <EmotionPanel prediction={prediction} />
+          </div>
+        </div>
+
+        {/* Info Cards Section */}
+        <div className="grid md:grid-cols-3 gap-4">
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-blue-500/50 transition-all hover:shadow-lg hover:shadow-blue-500/20">
+            <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
+              <Shield className="w-6 h-6 text-blue-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-slate-100 mb-2">
+              100% Private
+            </h3>
+            <p className="text-sm text-slate-400">
+              Your conversations are anonymous and confidential. We never store
+              identifiable information.
+            </p>
+          </div>
+
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-indigo-500/50 transition-all hover:shadow-lg hover:shadow-indigo-500/20">
+            <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center mb-4">
+              <Brain className="w-6 h-6 text-indigo-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-slate-100 mb-2">
+              AI-Powered
+            </h3>
+            <p className="text-sm text-slate-400">
+              Advanced emotion detection using state-of-the-art machine learning
+              models.
+            </p>
+          </div>
+
+          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-purple-500/50 transition-all hover:shadow-lg hover:shadow-purple-500/20">
+            <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
+              <Heart className="w-6 h-6 text-purple-400" />
+            </div>
+            <h3 className="text-lg font-semibold text-slate-100 mb-2">
+              Always Here
+            </h3>
+            <p className="text-sm text-slate-400">
+              24/7 support whenever you need someone to talk to. Not a
+              replacement for professional help.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
