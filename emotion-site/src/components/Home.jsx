@@ -22,7 +22,7 @@ export default function Home() {
   const navigate = useNavigate();
   const [hoveredCard, setHoveredCard] = useState(null);
   // Typewriter logic ONLY for bottom line
-  const fullText = "Through AI Analysis";
+  const fullText = "Private. Anonymous. Real-time.";
   const [typedText, setTypedText] = useState("");
   const [index, setIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
@@ -150,17 +150,32 @@ export default function Home() {
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-5xl md:text-7xl font-bold mb-6 min-h-[10rem] leading-tight">
-              {/* Static top line */}
-              <span className="bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">
-                Understand Emotions
+            <h1 className="font-bold mb-6 text-center leading-tight">
+              {/* Line 1 */}
+              <span
+                className="
+    block
+    text-4xl sm:text-5xl md:text-7xl
+    bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400
+    bg-clip-text text-transparent
+  "
+              >
+                AI-Powered Emotion Understanding
               </span>
-              <br />
 
-              {/* Animated bottom line */}
-              <span className="text-white drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+              {/* Line 2 (NO WRAP EVER) */}
+              <span
+                className="
+    block
+    mt-2
+    text-3xl sm:text-4xl md:text-6xl
+    text-white
+    whitespace-nowrap
+    overflow-hidden
+  "
+              >
                 {typedText}
-                <span className="animate-pulse ml-1">|</span>
+                <span className="ml-1 animate-pulse">|</span>
               </span>
             </h1>
 
