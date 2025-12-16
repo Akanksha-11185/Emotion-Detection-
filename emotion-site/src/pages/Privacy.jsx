@@ -1,31 +1,86 @@
 export default function Privacy() {
   return (
-    <div className="pt-28 pb-20 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 min-h-screen">
+    <div className="pt-20 pb-24 bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 min-h-screen">
       <div className="max-w-5xl mx-auto px-6">
-        <h1 className="text-5xl font-extrabold mb-10 bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
+
+        {/* Heading */}
+        <h1 className="text-4xl md:text-5xl font-semibold mb-6 bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
           Privacy Policy
         </h1>
 
-        <div className="grid gap-6">
-          {[
-            "No user login or personal identification is required.",
-            "Messages are processed temporarily and never permanently stored.",
-            "All interactions are completely anonymous.",
-            "Admin access is strictly restricted and monitored.",
-            "This platform is not a replacement for professional mental health services.",
-          ].map((text, i) => (
-            <div
-              key={i}
-              className="p-6 rounded-xl bg-slate-800/40 border border-slate-700/50 hover:border-blue-400/40 hover:shadow-lg hover:shadow-blue-500/20 transition-all"
-            >
-              <p className="text-slate-300 text-lg">{text}</p>
-            </div>
-          ))}
+        <p className="text-slate-400 max-w-3xl mb-12 leading-relaxed">
+          Emotion Support is designed with privacy, anonymity, and user safety
+          as foundational principles. This page explains how data is handled
+          and the boundaries of the platform.
+        </p>
+
+        {/* Data Collection */}
+        <h2 className="text-2xl font-semibold text-blue-400 mb-4">
+          Data Collection
+        </h2>
+
+        <div className="space-y-4 mb-10">
+          <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-5 text-slate-300">
+            No user login or personal identification is required to use the platform.
+          </div>
+
+          <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-5 text-slate-300">
+            Emotion Support does not collect names, email addresses, or personal identifiers
+            during anonymous usage.
+          </div>
         </div>
 
-        <p className="mt-10 text-slate-400">
-          Your privacy and safety are our top priorities.
+        {/* Data Processing */}
+        <h2 className="text-2xl font-semibold text-blue-400 mb-4">
+          Data Processing
+        </h2>
+
+        <div className="space-y-4 mb-10">
+          <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-5 text-slate-300">
+            Messages are processed temporarily in memory to generate emotion analysis.
+          </div>
+
+          <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-5 text-slate-300">
+            User messages are not permanently stored or used for profiling.
+          </div>
+        </div>
+
+        {/* Access & Security */}
+        <h2 className="text-2xl font-semibold text-blue-400 mb-4">
+          Access & Security
+        </h2>
+
+        <div className="space-y-4 mb-10">
+          <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-5 text-slate-300">
+            All interactions are anonymous and isolated per session.
+          </div>
+
+          <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-5 text-slate-300">
+            Administrative access is strictly restricted and monitored.
+          </div>
+        </div>
+
+        {/* Responsible Use */}
+        <h2 className="text-2xl font-semibold text-blue-400 mb-4">
+          Responsible Use & Limitations
+        </h2>
+
+        <div className="space-y-4 mb-12">
+          <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-5 text-slate-300">
+            Emotion Support is not a replacement for professional mental health services.
+          </div>
+
+          <div className="rounded-lg bg-slate-800/30 border border-slate-700/50 p-5 text-slate-300">
+            The platform provides AI-assisted insights and does not offer diagnosis or treatment.
+          </div>
+        </div>
+
+        {/* Closing */}
+        <p className="text-slate-500 text-sm max-w-3xl">
+          Your privacy and safety are central to every design and engineering decision
+          made in Emotion Support.
         </p>
+
       </div>
     </div>
   );

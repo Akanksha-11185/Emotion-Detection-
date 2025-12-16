@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 // Typing Indicator Component
 function TypingIndicator() {
   return (
-    <div className="flex items-center space-x-2 px-4 py-3 bg-slate-700/50 rounded-lg max-w-[100px] transition-all duration-200 hover:scale-105 cursor-default">
+    <div className="flex items-center space-x-2 px-4 py-2.5 bg-slate-700/50 rounded-lg max-w-[100px] transition-all duration-200 cursor-default">
       <div className="flex space-x-1">
         <div
           className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
@@ -36,7 +36,7 @@ export default function ChatBox({ onPredict = null }) {
     {
       id: "bot-start",
       who: "bot",
-      text: "Hi — I'm here to listen. Tell me how you're feeling.",
+      text: "I’m here with you. You can share anything — there’s no judgment and no identity attached.",
       timestamp: new Date(),
     },
   ]);
@@ -201,16 +201,18 @@ export default function ChatBox({ onPredict = null }) {
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-teal-500 rounded-full flex items-center justify-center">
                 <MessageCircle className="w-5 h-5 text-slate-900" />
               </div>
-              <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-900"></div>
+              <div className="absolute bottom-0 right-0 w-3 h-3 bg-blue-400 rounded-full border-2 border-slate-900"></div>
             </div>
             <div>
               <h3 className="text-lg font-semibold text-slate-100">
-                AI Assistant
+                AI Support Assistant
               </h3>
-              <p className="text-xs text-slate-400">Here to listen & support</p>
+              <p className="text-xs text-slate-400">
+                Confidential • Non-judgmental
+              </p>  
             </div>
           </div>
           <div className="text-xs text-slate-500">
@@ -220,7 +222,7 @@ export default function ChatBox({ onPredict = null }) {
       </div>
 
       {/* Messages */}
-      <div ref={messagesRef} className="flex-1 overflow-auto p-5 space-y-4">
+      <div ref={messagesRef} className="flex-1 overflow-auto p-4 space-y-4">
         {messages.map((m) => (
           <div
             key={m.id}
@@ -234,9 +236,9 @@ export default function ChatBox({ onPredict = null }) {
               }`}
             >
               <div
-                className={`inline-block px-4 py-3 rounded-2xl shadow-lg transition-transform transition-colors duration-200 ease-out transform hover:-translate-y-0.5 hover:shadow-2xl ${
+                className={`inline-block px-4 py-2.5 rounded-2xl shadow-lg transition-transform transition-colors duration-200 ease-out transform hover:-translate-y-0.5 hover:shadow-2xl ${
                   m.who === "user"
-                    ? "bg-gradient-to-br from-emerald-400 to-teal-500 text-slate-900 rounded-br-md hover:brightness-105 cursor-default"
+                    ? "bg-gradient-to-br from-blue-400 to-teal-500 text-slate-900 rounded-br-md hover:brightness-105 cursor-default"
                     : m.who === "bot"
                     ? "bg-slate-700/80 backdrop-blur-sm text-slate-100 rounded-bl-md border border-slate-600/50 hover:brightness-105 cursor-pointer"
                     : "bg-yellow-600/20 text-yellow-300 border border-yellow-600/30 rounded-lg cursor-default hover:brightness-110"
@@ -258,7 +260,7 @@ export default function ChatBox({ onPredict = null }) {
         )}
 
         {errorText && (
-          <div className="flex items-center space-x-2 px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+          <div className="flex items-center space-x-2 px-4 py-2.5 bg-red-500/10 border border-red-500/30 rounded-lg">
             <AlertCircle className="w-4 h-4 text-red-400" />
             <p className="text-sm text-red-400">{errorText}</p>
           </div>
@@ -277,13 +279,13 @@ export default function ChatBox({ onPredict = null }) {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Share how you're feeling..."
-              className="flex-1 resize-none bg-slate-800 rounded-xl px-4 py-3 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400 transition-all placeholder:text-slate-500"
+              className="flex-1 resize-none bg-slate-800 rounded-xl px-4 py-2.5 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-400/50 focus:border-blue-400 transition-all placeholder:text-slate-500"
               style={{ maxHeight: "120px" }}
             />
             <button
               type="button"
               onClick={handleSend}
-              className="bg-gradient-to-br from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-slate-900 font-semibold px-5 py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/30 flex items-center space-x-2"
+              className="bg-gradient-to-br from-blue-400 to-teal-500 hover:from-blue-500 hover:to-teal-600 text-slate-900 font-semibold px-5 py-2.5 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-blue-400/30 flex items-center space-x-2"
               disabled={loading || !input.trim()}
             >
               <Send className="w-4 h-4" />
@@ -292,8 +294,8 @@ export default function ChatBox({ onPredict = null }) {
           </div>
           <div className="flex items-center justify-between px-1">
             <p className="text-xs text-slate-500">
-              Press{" "}
-              <kbd className="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-400">
+              This session is anonymous and temporary • Press{" "}
+              <kbd className="px-1 py-0.5 bg-slate-800 rounded border border-slate-700">
                 Enter
               </kbd>{" "}
               to send,{" "}
