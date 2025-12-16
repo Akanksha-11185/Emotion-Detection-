@@ -1,7 +1,5 @@
 // src/components/Home.jsx
-import React, { useState } from "react";
-import { useEffect } from "react"; // make sure this exists
-
+import React, { useState, useEffect } from "react";
 import {
   MessageCircle,
   Brain,
@@ -9,19 +7,19 @@ import {
   ArrowRight,
   Image as ImageIcon,
   FileText,
-  Lock,
   Zap,
   CheckCircle,
   Star,
 } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
-// Typewriter logic ONLY for bottom line
-
 export default function Home() {
   const navigate = useNavigate();
   const [hoveredCard, setHoveredCard] = useState(null);
-  // Typewriter logic ONLY for bottom line
+
+  // -------------------------
+  // Typewriter (2nd line only)
+  // -------------------------
   const fullText = "Private. Anonymous. Real-time.";
   const [typedText, setTypedText] = useState("");
   const [index, setIndex] = useState(0);
@@ -45,8 +43,11 @@ export default function Home() {
     }, speed);
 
     return () => clearTimeout(timer);
-  }, [index, isDeleting]);
+  }, [index, isDeleting, fullText]);
 
+  // -------------------------
+  // Data
+  // -------------------------
   const features = [
     {
       id: 1,
@@ -54,7 +55,7 @@ export default function Home() {
       title: "Anonymous Browsing",
       description:
         "Chat completely anonymously. No login required, no data stored. Your privacy is our priority.",
-      gradient: "from-blue-400 to-cyan-500",
+      gradient: "from-blue-500 to-blue-600",
       shadow: "hover:shadow-blue-500/50",
       link: "/anonymous",
     },
@@ -64,7 +65,7 @@ export default function Home() {
       title: "Text Emotion Detection",
       description:
         "Advanced AI analyzes your text messages to detect emotions in real-time with high accuracy.",
-      gradient: "from-indigo-400 to-blue-500",
+      gradient: "from-blue-500 to-blue-600",
       shadow: "hover:shadow-indigo-500/50",
       link: "/text-detection",
     },
@@ -74,7 +75,7 @@ export default function Home() {
       title: "Chat Screenshot Analysis",
       description:
         "Upload chat screenshots and our AI will analyze emotions from conversations.",
-      gradient: "from-purple-400 to-indigo-500",
+      gradient: "from-blue-500 to-blue-600",
       shadow: "hover:shadow-purple-500/50",
       link: "/screenshot-detection",
     },
@@ -127,108 +128,77 @@ export default function Home() {
     },
   ];
 
+  // -------------------------
+  // JSX
+  // -------------------------
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950">
-      {/* Hero Section */}
+    <div className="min-h-screen bg-slate-950">
+      {/* HERO */}
       <section className="relative overflow-hidden">
-        {/* Background Effects */}
-        <div className="absolute inset-0 bg-gradient-to-r from-blue-500/10 to-purple-500/10 blur-3xl"></div>
-        <div className="absolute top-20 right-20 w-72 h-72 bg-blue-500/20 rounded-full blur-3xl animate-pulse"></div>
-        <div
-          className="absolute bottom-20 left-20 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"
-          style={{ animationDelay: "1s" }}
-        ></div>
-
-        <div className="relative container mx-auto px-4 pt-20 pb-32">
-          <div className="max-w-4xl mx-auto text-center">
+        <div className="container mx-auto px-4 pt-20 pb-24">
+          <div className="max-w-5xl mx-auto text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full mb-8 animate-in fade-in slide-in-from-top duration-700">
-              <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full mt-4 mb-6">
+              <Star className="w-4 h-4 text-blue-300" />
               <span className="text-sm text-blue-300">
-                AI-Powered Emotion Detection Platform
+                🔒 Privacy-First • Anonymous • Research-Driven
               </span>
             </div>
 
-            {/* Main Heading */}
+            {/* Heading (2 lines ONLY) */}
             <h1 className="font-bold mb-6 text-center leading-tight">
-              {/* Line 1 */}
-              <span
-                className="
-    block
-    text-4xl sm:text-5xl md:text-7xl
-    bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400
-    bg-clip-text text-transparent
-  "
-              >
+              <span className="block text-4xl sm:text-5xl md:text-7xl bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-400 bg-clip-text text-transparent">
                 AI-Powered Emotion Understanding
               </span>
 
-              {/* Line 2 (NO WRAP EVER) */}
-              <span
-                className="
-    block
-    mt-2
-    text-3xl sm:text-4xl md:text-6xl
-    text-white
-    whitespace-nowrap
-    overflow-hidden
-  "
-              >
+              <span className="block mt-2 text-3xl sm:text-4xl md:text-6xl text-white whitespace-nowrap overflow-hidden">
                 {typedText}
                 <span className="ml-1 animate-pulse">|</span>
               </span>
             </h1>
 
             {/* Subtitle */}
-            <p
-              className="text-xl text-slate-400 mb-12 max-w-2xl mx-auto animate-in fade-in slide-in-from-bottom duration-700"
-              style={{ animationDelay: "400ms" }}
-            >
-              Advanced machine learning technology to detect and analyze
-              emotions from text, ensuring complete privacy and anonymity.
+            <p className="text-xl text-slate-500 mb-10 max-w-2xl mx-auto">
+              Analyze emotional patterns from text using AI — designed for
+              privacy-first mental health support.
             </p>
 
-            {/* CTA Buttons */}
-            <div
-              className="flex flex-wrap gap-4 justify-center animate-in fade-in slide-in-from-bottom duration-700"
-              style={{ animationDelay: "600ms" }}
-            >
+            {/* CTA */}
+            <div className="flex flex-wrap gap-6 justify-center">
               <button
                 onClick={() => navigate("/anonymous")}
-                className="group px-8 py-4 bg-gradient-to-r from-blue-500 to-indigo-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/50 hover:shadow-xl hover:shadow-blue-500/70 transition-all hover:scale-105 active:scale-95 flex items-center gap-2"
+                className="group px-8 py-4 bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-xl shadow-lg shadow-blue-900/40 hover:shadow-blue-500/70 transition-all active:scale-95 flex items-center gap-2"
               >
-                Get Started Free
+                Try Anonymous Chat
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </button>
+
               <button
                 onClick={() =>
                   document
                     .getElementById("how-it-works")
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
-                className="px-8 py-4 bg-slate-800/50 hover:bg-slate-800 text-white font-semibold rounded-xl border border-slate-700 hover:border-blue-500/50 transition-all hover:scale-105 active:scale-95"
+                className="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold rounded-xl border border-slate-700 hover:border-blue-500/50 transition-all active:scale-95"
               >
-                Learn More
+                How It Works
               </button>
             </div>
 
             {/* Stats */}
-            <div
-              className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20 animate-in fade-in slide-in-from-bottom duration-700"
-              style={{ animationDelay: "800ms" }}
-            >
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-20">
               {stats.map((stat, idx) => (
                 <div
                   key={idx}
-                  className="bg-slate-800/30 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 hover:border-blue-500/50 transition-all hover:scale-105"
+                  className="bg-slate-900 border border-slate-800/60 rounded-xl p-6 hover:border-blue-500/50 transition-all"
                 >
-                  <div className="flex items-center justify-center gap-2 text-blue-400 mb-2">
+                  <div className="flex items-center justify-center gap-2 text-blue-300 mb-2">
                     {stat.icon}
                   </div>
                   <div className="text-3xl font-bold text-white mb-1">
                     {stat.value}
                   </div>
-                  <div className="text-sm text-slate-400">{stat.label}</div>
+                  <div className="text-sm text-slate-500">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -236,149 +206,69 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Features Section */}
-      <section id="features" className="relative py-20">
+      {/* FEATURES */}
+      <section id="features" className="py-16">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              Explore Our{" "}
-              <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                Key Features
-              </span>
+            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+              Explore Our <span className="text-blue-300">Key Features</span>
             </h2>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-              Choose the method that works best for you. All options ensure
-              complete privacy and accurate emotion detection.
+            <p className="text-xl text-slate-500 max-w-2xl mx-auto">
+              Choose the method that works best for you.
             </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {features.map((feature, idx) => (
+            {features.map((feature) => (
               <div
                 key={feature.id}
-                onMouseEnter={() => setHoveredCard(feature.id)}
-                onMouseLeave={() => setHoveredCard(null)}
                 onClick={() => navigate(feature.link)}
-                className={`group relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50 cursor-pointer transition-all duration-500 hover:scale-105 ${feature.shadow} hover:shadow-2xl animate-in fade-in slide-in-from-bottom`}
-                style={{ animationDelay: `${idx * 150}ms` }}
+                className={`group bg-slate-900/60 rounded-2xl p-6 border border-slate-700/50 cursor-pointer transition-all ${feature.shadow} hover:shadow-2xl`}
               >
-                {/* Gradient Overlay */}
                 <div
-                  className={`absolute inset-0 bg-gradient-to-br ${feature.gradient} opacity-0 group-hover:opacity-10 rounded-2xl transition-opacity duration-500`}
-                ></div>
-
-                {/* Icon */}
-                <div
-                  className={`relative w-16 h-16 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-500 shadow-lg`}
+                  className={`w-14 h-14 bg-gradient-to-br ${feature.gradient} rounded-xl flex items-center justify-center mb-6 shadow-lg`}
                 >
                   <div className="text-white">{feature.icon}</div>
                 </div>
 
-                {/* Content */}
-                <h3 className="relative text-2xl font-bold text-white mb-4 group-hover:text-blue-400 transition-colors">
+                <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-blue-300 transition-colors">
                   {feature.title}
                 </h3>
-                <p className="relative text-slate-400 mb-6 leading-relaxed">
-                  {feature.description}
-                </p>
+                <p className="text-slate-500 mb-6">{feature.description}</p>
 
-                {/* Arrow */}
-                <div className="relative flex items-center text-blue-400 font-semibold group-hover:gap-2 transition-all">
-                  <span>Explore</span>
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
+                <div className="flex items-center text-blue-300 font-semibold">
+                  Explore <ArrowRight className="w-5 h-5 ml-1" />
                 </div>
-
-                {/* Hover Effect Border */}
-                <div
-                  className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${feature.gradient} opacity-0 group-hover:opacity-20 blur-xl transition-opacity duration-500`}
-                ></div>
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* How It Works Section */}
-      <section
-        id="how-it-works"
-        className="relative py-20 bg-gradient-to-b from-transparent to-slate-900/50"
-      >
+      {/* HOW IT WORKS */}
+      <section id="how-it-works" className="py-16 bg-slate-900/40">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-              How It{" "}
-              <span className="bg-gradient-to-r from-blue-400 to-indigo-400 bg-clip-text text-transparent">
-                Works
-              </span>
+            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+              How It <span className="text-blue-300">Works</span>
             </h2>
-            <p className="text-xl text-slate-400 max-w-2xl mx-auto">
-              Get started in three simple steps. It's fast, secure, and
-              completely anonymous.
-            </p>
           </div>
 
-          <div className="max-w-5xl mx-auto">
-            <div className="grid md:grid-cols-3 gap-8">
-              {howItWorks.map((item, idx) => (
-                <div
-                  key={idx}
-                  className="relative group animate-in fade-in slide-in-from-bottom"
-                  style={{ animationDelay: `${idx * 200}ms` }}
-                >
-                  {/* Connector Line */}
-                  {idx < howItWorks.length - 1 && (
-                    <div className="hidden md:block absolute top-16 left-full w-full h-0.5 bg-gradient-to-r from-blue-500 to-transparent -translate-x-1/2 z-0"></div>
-                  )}
-
-                  <div className="relative bg-slate-800/30 backdrop-blur-sm rounded-2xl p-8 border border-slate-700/50 hover:border-blue-500/50 transition-all hover:scale-105 hover:shadow-2xl hover:shadow-blue-500/20">
-                    {/* Step Number */}
-                    <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/50">
-                      {item.step}
-                    </div>
-
-                    {/* Icon */}
-                    <div className="w-14 h-14 bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                      <div className="text-blue-400">{item.icon}</div>
-                    </div>
-
-                    {/* Content */}
-                    <h3 className="text-xl font-bold text-white mb-3">
-                      {item.title}
-                    </h3>
-                    <p className="text-slate-400 leading-relaxed">
-                      {item.description}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="relative py-20">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-600 to-indigo-700 rounded-3xl p-12 text-center relative overflow-hidden shadow-2xl shadow-blue-500/50">
-            {/* Background Effects */}
-            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 blur-3xl"></div>
-
-            <div className="relative">
-              <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
-                Ready to Get Started?
-              </h2>
-              <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
-                Join thousands of users who trust our platform for anonymous,
-                secure emotion detection.
-              </p>
-              <button
-                onClick={() => navigate("/anonymous")}
-                className="group px-8 py-4 bg-white hover:bg-slate-100 text-blue-600 font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95 flex items-center gap-2 mx-auto"
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            {howItWorks.map((item) => (
+              <div
+                key={item.step}
+                className="bg-slate-800/40 rounded-2xl p-6 border border-slate-700/50"
               >
-                Start Your Journey
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-            </div>
+                <div className="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold mb-4">
+                  {item.step}
+                </div>
+                <h3 className="text-xl font-bold text-white mb-2">
+                  {item.title}
+                </h3>
+                <p className="text-slate-500">{item.description}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>

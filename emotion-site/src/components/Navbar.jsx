@@ -19,10 +19,12 @@ export default function Navbar({ user = null }) {
   // ✅ UPDATED: ROUTE-BASED LINKS
   const navLinks = [
     { name: "Home", path: "/" },
-    { name: "About", path: "/about" },
+    { name: "Anonymous Chat", path: "/anonymous" },
     { name: "How it works", path: "/how-it-works" },
+    { name: "About", path: "/about" },
     { name: "Contact us", path: "/contact" },
     { name: "Privacy", path: "/privacy" },
+    
   ];
 
   const handleNavClick = (path) => {

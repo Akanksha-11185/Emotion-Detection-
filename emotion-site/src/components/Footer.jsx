@@ -39,7 +39,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800">
+    <footer className="bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800/50">
       <div className="container mx-auto px-4 py-12">
         {/* Main Footer Content */}
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
@@ -87,7 +87,7 @@ export default function Footer() {
         </div>
 
         {/* Divider */}
-        <div className="border-t border-slate-800 pt-8">
+        <div className="border-t border-slate-800/50 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             {/* Copyright */}
             <p className="text-slate-500 text-sm">
@@ -98,7 +98,7 @@ export default function Footer() {
             <div className="flex items-center gap-4">
               <a
                 href="mailto:support@emotionsupport.com"
-                className="w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-400 transition-all hover:scale-110"
+                className="w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-400 transition-all"
                 aria-label="Email"
               >
                 <Mail className="w-5 h-5" />
@@ -107,7 +107,7 @@ export default function Footer() {
                 href="https://github.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-400 transition-all hover:scale-110"
+                className="w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-400 transition-all"
                 aria-label="GitHub"
               >
                 <Github className="w-5 h-5" />
@@ -116,7 +116,7 @@ export default function Footer() {
                 href="https://twitter.com"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-400 transition-all hover:scale-110"
+                className="w-10 h-10 bg-slate-800 hover:bg-slate-700 rounded-lg flex items-center justify-center text-slate-400 hover:text-blue-400 transition-all"
                 aria-label="Twitter"
               >
                 <Twitter className="w-5 h-5" />
