@@ -45,7 +45,7 @@ function EmotionBar({ label, value, index }) {
           {Math.round(value * 100)}%
         </span>
       </div>
-      <div className="relative h-3 bg-slate-700/50 rounded-full overflow-hidden border border-slate-600/50 transition-all hover:shadow-lg hover:border-blue-400/40 cursor-pointer">
+      <div className="relative h-3 bg-slate-200 dark:bg-slate-700/50 rounded-full overflow-hidden border border-slate-600/50 transition-all hover:shadow-lg hover:border-blue-400/40 cursor-pointer">
         <div
           style={{ width: `${Math.round(value * 100)}%` }}
           className={`h-full bg-gradient-to-r ${getEmotionColor(
@@ -62,20 +62,20 @@ function EmotionBar({ label, value, index }) {
 export default function EmotionPanel({ prediction }) {
   if (!prediction) {
     return (
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 border border-slate-700/50 shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-xl cursor-pointer">
+      <div className="bg-white dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700/50 rounded-xl p-6 border border-slate-700/50 shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-xl cursor-pointer">
         <div className="flex items-center gap-3 mb-4">
           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
             <Brain className="w-5 h-5 text-white" />
           </div>
-          <h3 className="text-lg font-semibold text-slate-100">
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
             Emotion Analysis
           </h3>
         </div>
         <div className="flex flex-col items-center justify-center py-8 text-center">
-          <div className="w-16 h-16 bg-slate-700/50 rounded-full flex items-center justify-center mb-4">
+          <div className="w-16 h-16 bg-slate-200 dark:bg-slate-700/50 rounded-full flex items-center justify-center mb-4">
             <Zap className="w-8 h-8 text-slate-500" />
           </div>
-          <p className="text-slate-400 text-sm mb-2">
+          <p className="text-slate-600 dark:text-slate-400">
             Send a message to see AI-powered emotion detection
           </p>
           <p className="text-xs text-slate-500">
@@ -91,14 +91,15 @@ export default function EmotionPanel({ prediction }) {
   const topValue = top[0]?.[1] || 0;
 
   return (
-    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 border border-slate-700/50 shadow-xl transition-all duration-300 hover:shadow-2xl cursor-pointer">
+    <div className="bg-white dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700/50 rounded-xl p-6 border border-slate-700/50 shadow-xl transition-all duration-300 hover:shadow-2xl cursor-pointer">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
           <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center animate-pulse">
             <Brain className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-slate-100">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+
               Emotion Analysis
             </h3>
             <p className="text-xs text-slate-400">Top detected emotions</p>

@@ -39,7 +39,7 @@ export default function Footer() {
   };
 
   return (
-    <footer className="bg-gradient-to-b from-slate-900 to-slate-950 border-t border-slate-800/50">
+    <footer className="bg-slate-50 dark:bg-gradient-to-b dark:from-slate-900 dark:to-slate-950 border-t border-slate-200 dark:border-slate-800/50">
       <div className="container mx-auto px-4 py-12">
         {/* Main Footer Content */}
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-8 mb-8">
@@ -69,7 +69,7 @@ export default function Footer() {
           {/* Links Sections */}
           {Object.entries(footerLinks).map(([category, links]) => (
             <div key={category}>
-              <h4 className="text-white font-semibold mb-4">{category}</h4>
+              <h4 className="text-slate-900 dark:text-white font-semibold mb-4">{category}</h4>
               <ul className="space-y-2">
                 {links.map((link) => (
                   <li key={link.name}>
