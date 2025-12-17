@@ -32,10 +32,12 @@ export default function App() {
   const hideFooter = hideFooterRoutes.includes(location.pathname);
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white text-slate-700 dark:bg-slate-950 dark:text-slate-400">
+
       <Navbar user={user} />
       <ScrollToTop />
 
+      <main className="pt-8"></main>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/anonymous" element={<AnonymousPage />} />

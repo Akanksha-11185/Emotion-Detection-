@@ -19,7 +19,7 @@ export default function TextDetectionPage({ user }) {
   if (!user) return null; // prevents flicker
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 pt-20">
+    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 pt-20 light:bg-white">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-10">
@@ -45,19 +45,19 @@ export default function TextDetectionPage({ user }) {
         {/* Main Grid */}
         <div className="grid lg:grid-cols-3 gap-6 mb-10">
           {/* Chat Section */}
-          <div className="lg:col-span-2 bg-slate-900/40 border border-slate-700/50 rounded-2xl p-4 shadow-xl shadow-blue-500/10">
+          <div className="lg:col-span-2 bg-slate-900/40 border border-slate-700/50 light:bg-slate-50 light:border-slate-200 rounded-2xl p-4 shadow-xl shadow-blue-500/10">
             <ChatBox onPredict={setPrediction} />
           </div>
 
           {/* Emotion Panel */}
-          <div className="lg:col-span-1 bg-slate-900/40 border border-slate-700/50 rounded-2xl p-4 shadow-xl shadow-indigo-500/10">
+          <div className="lg:col-span-1 bg-slate-900/40 border border-slate-700/50 light:bg-slate-50 light:border-slate-200 rounded-2xl p-4 shadow-xl shadow-indigo-500/10">
             <EmotionPanel prediction={prediction} />
           </div>
         </div>
 
         {/* Info Cards */}
         <div className="grid md:grid-cols-3 gap-4">
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-indigo-500/50 transition-all hover:shadow-lg hover:shadow-indigo-500/20">
+          <div className="bg-slate-800/50 light:bg-slate-50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 light:border-slate-200 hover:border-indigo-500/50 transition-all hover:shadow-lg hover:shadow-indigo-500/20">
             <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center mb-4">
               <Brain className="w-6 h-6 text-indigo-400" />
             </div>
@@ -70,7 +70,7 @@ export default function TextDetectionPage({ user }) {
             </p>
           </div>
 
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-blue-500/50 transition-all hover:shadow-lg hover:shadow-blue-500/20">
+          <div className="bg-slate-800/50 light:bg-slate-50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 light:border-slate-200 hover:border-blue-500/50 transition-all hover:shadow-lg hover:shadow-blue-500/20">
             <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
               <Lock className="w-6 h-6 text-blue-400" />
             </div>
@@ -83,7 +83,7 @@ export default function TextDetectionPage({ user }) {
             </p>
           </div>
 
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-purple-500/50 transition-all hover:shadow-lg hover:shadow-purple-500/20">
+          <div className="bg-slate-800/50 light:bg-slate-50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 light:border-slate-200 hover:border-purple-500/50 transition-all hover:shadow-lg hover:shadow-purple-500/20">
             <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
               <UserCheck className="w-6 h-6 text-purple-400" />
             </div>

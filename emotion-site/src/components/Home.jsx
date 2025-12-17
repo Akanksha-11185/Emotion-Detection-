@@ -65,7 +65,7 @@ export default function Home() {
       title: "Text Emotion Detection",
       description:
         "Advanced AI analyzes your text messages to detect emotions in real-time with high accuracy.",
-      gradient: "from-blue-500 to-blue-600",
+      gradient: "from-blue-500 to-indigo-600",
 
       shadow: "hover:shadow-indigo-500/50",
       link: "/text-detection",
@@ -130,17 +130,20 @@ export default function Home() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950">
+    <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
+
       {/* Hero Section */}
-      <section className="relative overflow-hidden">
+      <section className="relative overflow-hidden bg-white dark:bg-gradient-to-b dark:from-slate-950 dark:to-slate-900">
         {/* Background Effects */}
 
         <div className="relative container mx-auto px-4 pt-20 pb-24">
           <div className="max-w-5xl mx-auto text-center">
             {/* Badge */}
-            <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full mt-4 mb-6 animate-in fade-in slide-in-from-top duration-700">
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-300 dark:bg-slate-900/60 dark:border-slate-700">
               
-              <span className="text-sm text-blue-300">
+              <span className="text-sm font-medium text-blue-400 dark:text-blue-300">
+
+
                🔒 Privacy-First • Anonymous • Research-Driven
 
               </span>
@@ -155,7 +158,10 @@ export default function Home() {
               <br />
 
               {/* Animated bottom line */}
-              <span className="text-white text-4xl md:text-5xl drop-shadow-[0_4px_12px_rgba(0,0,0,0.6)]">
+              <span className="text-slate-700 dark:text-slate-100 text-4xl md:text-5xl font-semibold">
+
+
+
                 {typedText}
                
               </span>
@@ -177,7 +183,7 @@ export default function Home() {
             >
               <button
                 onClick={() => navigate("/anonymous")}
-                className="group px-8 py-4 bg-blue-500 hover:bg-blue-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-900/40 hover:shadow-xl hover:shadow-blue-500/70 transition-all active:scale-95 flex items-center gap-2"
+                className="group px-8 py-4 bg-blue-500 hover:bg-blue-600 hover:from-blue-600 hover:to-indigo-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-900/30 hover:shadow-xl hover:shadow-blue-500/40 transition-all active:scale-95 flex items-center gap-2"
               >
                 Try Anonymous Chat
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
@@ -188,7 +194,7 @@ export default function Home() {
                     .getElementById("how-it-works")
                     ?.scrollIntoView({ behavior: "smooth" })
                 }
-                className="px-8 py-4 bg-slate-900 hover:bg-slate-800 text-slate-200 font-semibold rounded-xl border border-slate-700 hover:border-blue-500/50 transition-all active:scale-95"
+                className="px-8 py-4 bg-slate-900 dark:bg-slate-800 hover:bg-slate-800 dark:hover:bg-slate-700 text-slate-200 rounded-xl border border-slate-700 transition-all active:scale-95"
               >
                 How It Works
               </button>
@@ -202,15 +208,18 @@ export default function Home() {
               {stats.map((stat, idx) => (
                 <div
                   key={idx}
-                  className="bg-slate-900 border border-slate-800/60 rounded-xl p-6 hover:border-blue-500/50 transition-all"
+                  className="bg-white dark:bg-slate-900 border border-blue-200 dark:border-slate-800/60 rounded-xl p-6 transition-all"
+
                 >
-                  <div className="flex items-center justify-center gap-2 text-blue-300 mb-2">
+                  <div className="flex items-center justify-center gap-2 text-blue-500 mb-2">
                     {stat.icon}
                   </div>
-                  <div className="text-3xl font-bold text-white mb-1">
+                  <div className="text-3xl font-bold text-blue-500 dark:text-blue-400 mb-1"
+>
+
                     {stat.value}
                   </div>
-                  <div className="text-sm text-slate-500">{stat.label}</div>
+                  <div className="text-sm text-slate-500 ">{stat.label}</div>
                 </div>
               ))}
             </div>
@@ -219,12 +228,13 @@ export default function Home() {
       </section>
 
       {/* Features Section */}
-      <section id="features" className="relative py-16">
+      <section id="features" className="relative py-20 bg-white dark:bg-slate-950">
+
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-semibold text-slate-900 dark:text-white mb-4">
               Explore Our{" "}
-              <span className="text-blue-300">
+              <span className="text-blue-400">
 
                 Key Features
               </span>
@@ -242,7 +252,9 @@ export default function Home() {
                 onMouseEnter={() => setHoveredCard(feature.id)}
                 onMouseLeave={() => setHoveredCard(null)}
                 onClick={() => navigate(feature.link)}
-                className={`group relative bg-gradient-to-br from-slate-800/50 to-slate-900/50 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 cursor-pointer transition-all duration-500 ${feature.shadow} hover:shadow-2xl animate-in fade-in slide-in-from-bottom`}
+                className="group relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 hover:border-blue-400 transition-all"
+
+
                 style={{ animationDelay: `${idx * 150}ms` }}
               >
                 {/* Gradient Overlay */}
@@ -258,7 +270,7 @@ export default function Home() {
                 </div>
 
                 {/* Content */}
-                <h3 className="relative text-2xl font-bold text-white mb-4 group-hover:text-blue-300 transition-colors">
+                <h3 className="relative text-2xl font-semibold text-slate-900 dark:text-white mb-4 group-hover:text-blue-300 transition-colors">
                   {feature.title}
                 </h3>
                 <p className="relative text-slate-500 mb-6 leading-relaxed">
@@ -284,18 +296,22 @@ export default function Home() {
       {/* How It Works Section */}
       <section
         id="how-it-works"
-        className="relative py-16 bg-gradient-to-b from-transparent to-slate-900/50"
+       className="relative py-20 bg-white dark:bg-slate-950"
       >
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-semibold text-white mb-4">
+            <h2 className="text-3xl md:text-4xl font-semibold text-slate-900 dark:text-white mb-4">
+
+
               How It{" "}
-              <span className="text-blue-300">
+              <span className="text-blue-400">
+
 
                 Works
               </span>
             </h2>
-            <p className="text-xl text-slate-500 max-w-2xl mx-auto">
+            <p className="text-xl text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
+
               Get started in three simple steps. It's fast, secure, and
               completely anonymous.
             </p>
@@ -313,19 +329,22 @@ export default function Home() {
                   {idx < howItWorks.length - 1 && (
                     <div className="hidden md:block absolute top-16 left-full w-full h-0.5 bg-gradient-to-r from-blue-500/50 to-transparent -translate-x-1/2 z-0"></div>
                   )}
-                  <div className="relative bg-slate-800/30 backdrop-blur-sm rounded-2xl p-6 border border-slate-700/50 hover:border-blue-500/50 transition-all  hover:shadow-2xl hover:shadow-blue-500/20">
+                  <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 transition-all">
+
                     {/* Step Number */}
-                    <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/50">
+                    <div className="absolute -top-4 -right-4 w-12 h-12 bg-blue-500 dark:bg-gradient-to-br dark:from-blue-500 dark:to-indigo-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/50">
+
                       {item.step}
                     </div>
 
                     {/* Icon */}
                     <div className="w-14 h-14 bg-gradient-to-br from-blue-500/20 to-indigo-500/20 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                      <div className="text-blue-300">{item.icon}</div>
+                      <div className="text-blue-500">{item.icon}</div>
                     </div>
 
                     {/* Content */}
-                    <h3 className="text-xl font-bold text-white mb-3">
+                    <h3 className="text-xl font-semibold text-slate-900 mb-3">
+
                       {item.title}
                     </h3>
                     <p className="text-slate-500 leading-relaxed">
@@ -340,9 +359,11 @@ export default function Home() {
       </section>
 
       {/* CTA Section */}
-      <section className="relative py-16">
+      <section className="relative py-20 bg-slate-50 dark:bg-slate-950">
+
+
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-500 to-indigo-600 rounded-3xl p-12 text-center relative overflow-hidden shadow-2xl shadow-blue-500/50">
+          <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-400 to-indigo-400 dark:from-blue-500 to-indigo-600 rounded-3xl p-12 text-center relative overflow-hidden shadow-2xl shadow-blue-500/50">
             {/* Background Effects */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 blur-3xl"></div>
 
