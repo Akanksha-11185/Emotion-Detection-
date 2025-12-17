@@ -1,5 +1,11 @@
 import { initializeApp } from "firebase/app";
-import { getAuth, GoogleAuthProvider } from "firebase/auth";
+
+import {
+  getAuth,
+  GoogleAuthProvider,
+  setPersistence,
+  browserLocalPersistence,
+} from "firebase/auth";
 
 /**
  * Firebase configuration
@@ -28,6 +34,15 @@ console.log("Firebase connected:", firebaseConfig.projectId);
 
 // Firebase Authentication
 export const auth = getAuth(app);
+
+setPersistence(auth, browserLocalPersistence)
+  .then(() => {
+    console.log("Auth persistence set to local");
+  })
+  .catch((err) => {
+    console.error("Persistence error", err);
+  });
+
 export const googleProvider = new GoogleAuthProvider();
 
 export default app;

@@ -17,6 +17,7 @@ import TextDetectionPage from "./pages/TextDetectionPage";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
 import ProtectedRoute from "./components/ProtectedRoute";
+import ScreenshotEmotion from "./pages/ScreenshotEmotion";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -54,10 +55,8 @@ export default function App() {
           element={<TextDetectionPage user={user} />}
         />
 
-        <Route
-          path="/screenshot-detection"
-          element={<ComingSoon title="Screenshot Analysis" />}
-        />
+        <Route path="/screenshot-detection" element={<ScreenshotEmotion />} />
+
         <Route path="/login" element={<Login setUser={setUser} />} />
         <Route path="/signup" element={<SignUp />} />
         <Route
@@ -67,6 +66,10 @@ export default function App() {
               <TextDetectionPage />
             </ProtectedRoute>
           }
+        />
+        <Route
+          path="/vision/screenshot-analysis"
+          element={<ScreenshotEmotion />}
         />
       </Routes>
 

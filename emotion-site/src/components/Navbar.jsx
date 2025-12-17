@@ -1,12 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Heart, Menu, X, LogIn } from "lucide-react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
+import { signOut } from "firebase/auth";
+import { auth } from "../firebase";
 
-export default function Navbar({ user = null }) {
+export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const navigate = useNavigate();
   const location = useLocation();
+
+  // ✅ SINGLE source of truth
+  const { user } = useAuth();
+
+  const handleLogout = async () => {
+    await signOut(auth);
+    navigate("/login");
+  };
 
   useEffect(() => {
     const handleScroll = () => {
@@ -16,7 +28,6 @@ export default function Navbar({ user = null }) {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // ✅ UPDATED: ROUTE-BASED LINKS
   const navLinks = [
     { name: "Home", path: "/" },
     { name: "Anonymous Chat", path: "/anonymous" },
@@ -24,7 +35,6 @@ export default function Navbar({ user = null }) {
     { name: "About", path: "/about" },
     { name: "Contact us", path: "/contact" },
     { name: "Privacy", path: "/privacy" },
-    
   ];
 
   const handleNavClick = (path) => {
@@ -32,14 +42,9 @@ export default function Navbar({ user = null }) {
     navigate(path);
   };
 
-  const getInitials = (name) => {
-    if (!name) return "A";
-    return name
-      .split(" ")
-      .map((n) => n[0])
-      .join("")
-      .toUpperCase()
-      .slice(0, 2);
+  const getInitial = (email) => {
+    if (!email) return "A";
+    return email[0].toUpperCase();
   };
 
   return (
@@ -57,7 +62,7 @@ export default function Navbar({ user = null }) {
             onClick={() => navigate("/")}
             className="flex items-center gap-3 cursor-pointer"
           >
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center shadow-lg">
+            <div className="w-12 h-12 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-xl flex items-center justify-center">
               <Heart className="w-6 h-6 text-white" />
             </div>
             <div>
@@ -74,7 +79,7 @@ export default function Navbar({ user = null }) {
               <button
                 key={link.name}
                 onClick={() => handleNavClick(link.path)}
-                className={`px-4 py-2 text-sm font-medium rounded-lg transition-all ${
+                className={`px-4 py-2 text-sm font-medium rounded-lg transition ${
                   location.pathname === link.path
                     ? "text-blue-400 bg-slate-800/40"
                     : "text-slate-300 hover:text-blue-400 hover:bg-slate-800/40"
@@ -88,19 +93,29 @@ export default function Navbar({ user = null }) {
           {/* Right Side */}
           <div className="hidden md:flex items-center gap-3">
             {user ? (
-              <div className="flex items-center gap-3">
-                <div className="text-right">
-                  <p className="text-sm font-medium text-white">{user.name}</p>
-                  <p className="text-xs text-slate-400">{user.email}</p>
+              <div className="relative group">
+                {/* Avatar */}
+                <div className="w-10 h-10 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white font-bold cursor-pointer">
+                  {getInitial(user.email)}
                 </div>
-                <div className="w-11 h-11 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center text-white font-bold">
-                  {getInitials(user.name)}
+
+                {/* Dropdown */}
+                <div className="absolute right-0 mt-2 w-44 bg-slate-900 border border-slate-700 rounded-lg shadow-xl opacity-0 group-hover:opacity-100 transition">
+                  <p className="px-4 py-2 text-sm text-slate-300 truncate">
+                    {user.email}
+                  </p>
+                  <button
+                    onClick={handleLogout}
+                    className="w-full text-left px-4 py-2 text-red-400 hover:bg-slate-800"
+                  >
+                    Logout
+                  </button>
                 </div>
               </div>
             ) : (
               <button
                 onClick={() => navigate("/login")}
-                className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:scale-105 transition-all flex items-center gap-2"
+                className="px-6 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-lg flex items-center gap-2"
               >
                 <LogIn className="w-4 h-4" />
                 Login
@@ -113,48 +128,10 @@ export default function Navbar({ user = null }) {
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             className="md:hidden p-2 text-slate-300 hover:text-white hover:bg-slate-800 rounded-lg"
           >
-            {isMobileMenuOpen ? (
-              <X className="w-6 h-6" />
-            ) : (
-              <Menu className="w-6 h-6" />
-            )}
+            {isMobileMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
       </div>
-
-      {/* Mobile Menu */}
-      {isMobileMenuOpen && (
-        <div className="md:hidden bg-slate-900/98 backdrop-blur-xl border-t border-slate-800">
-          <div className="container mx-auto px-4 py-4 space-y-1">
-            {navLinks.map((link) => (
-              <button
-                key={link.name}
-                onClick={() => handleNavClick(link.path)}
-                className={`w-full text-left px-4 py-3 text-sm font-medium rounded-lg ${
-                  location.pathname === link.path
-                    ? "text-blue-400 bg-slate-800"
-                    : "text-slate-300 hover:text-blue-400 hover:bg-slate-800/50"
-                }`}
-              >
-                {link.name}
-              </button>
-            ))}
-
-            {!user && (
-              <button
-                onClick={() => {
-                  navigate("/login");
-                  setIsMobileMenuOpen(false);
-                }}
-                className="w-full mt-3 px-6 py-3 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-lg flex items-center justify-center gap-2"
-              >
-                <LogIn className="w-4 h-4" />
-                Login
-              </button>
-            )}
-          </div>
-        </div>
-      )}
     </nav>
   );
 }
