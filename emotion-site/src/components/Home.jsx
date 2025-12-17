@@ -133,10 +133,13 @@ export default function Home() {
     <div className="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-white">
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-white dark:bg-gradient-to-b dark:from-slate-950 dark:to-slate-900">
+      <section className="relative bg-white dark:bg-gradient-to-b dark:from-slate-950 dark:to-slate-900">
+
         {/* Background Effects */}
 
-        <div className="relative container mx-auto px-4 pt-20 pb-24">
+        <div className="relative container mx-auto px-4 pt-14 pb-28">
+
+
           <div className="max-w-5xl mx-auto text-center">
             {/* Badge */}
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-blue-50 border border-blue-300 dark:bg-slate-900/60 dark:border-slate-700">
@@ -150,18 +153,17 @@ export default function Home() {
             </div>
 
             {/* Main Heading */}
-            <h1 className="text-5xl md:text-7xl font-bold mb-5 min-h-[10rem] leading-tight">
+            <h1 className="text-5xl md:text-7xl font-bold mb-5 min-h-[10rem] leading-tight pb-2">
+
               {/* Static top line */}
-              <span className="text-blue-400">
+             <span className="block text-4xl sm:text-5xl md:text-7xl leading-[1.2] pb-2 tracking-tight bg-gradient-to-r from-blue-500 to-indigo-400 bg-clip-text text-transparent">
+
                  AI-Powered Emotion Understanding
               </span>
-              <br />
+              
 
               {/* Animated bottom line */}
               <span className="text-slate-700 dark:text-slate-100 text-4xl md:text-5xl font-semibold">
-
-
-
                 {typedText}
                
               </span>
@@ -278,7 +280,7 @@ export default function Home() {
                 </p>
 
                 {/* Arrow */}
-                <div className="relative flex items-center text-blue-300 font-semibold group-hover:gap-2 transition-all">
+                <div className="relative flex items-center text-blue-400 font-semibold group-hover:gap-2 transition-all">
                   <span>Explore</span>
                   <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
                 </div>

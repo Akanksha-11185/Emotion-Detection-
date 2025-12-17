@@ -15,6 +15,8 @@ import ContactUs from "./pages/ContactUs";
 import ScrollToTop from "./components/ScrollToTop";
 import TextDetectionPage from "./pages/TextDetectionPage";
 import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 export default function App() {
   const [user, setUser] = useState(null);
@@ -28,6 +30,7 @@ export default function App() {
     "/contact",
     "/login",
     "/text-detection",
+    "/signup",
   ];
   const hideFooter = hideFooterRoutes.includes(location.pathname);
 
@@ -58,6 +61,15 @@ export default function App() {
           element={<ComingSoon title="Screenshot Analysis" />}
         />
         <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/detect"
+          element={
+            <ProtectedRoute>
+              <TextDetectionPage />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
 
       {/* ✅ Footer hidden only on selected pages */}
