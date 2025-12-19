@@ -334,7 +334,7 @@ export default function Home() {
                   <div className="relative bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-6 transition-all">
 
                     {/* Step Number */}
-                    <div className="absolute -top-4 -right-4 w-12 h-12 bg-blue-500 dark:bg-gradient-to-br dark:from-blue-500 dark:to-indigo-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/50">
+                    <div className="absolute -top-4 -right-4 w-12 h-12 bg-blue-500 dark:bg-gradient-to-br dark:from-blue-500 dark:to-indigo-500 rounded-full flex items-center justify-center text-white font-bold shadow-lg shadow-blue-500/30 dark:shadow-none">
 
                       {item.step}
                     </div>
@@ -345,7 +345,7 @@ export default function Home() {
                     </div>
 
                     {/* Content */}
-                    <h3 className="text-xl font-semibold text-slate-900 mb-3">
+                    <h3 className="text-xl font-semibold text-slate-900 dark:text-white mb-3">
 
                       {item.title}
                     </h3>
@@ -365,7 +365,7 @@ export default function Home() {
 
 
         <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-400 to-indigo-400 dark:from-blue-500 to-indigo-600 rounded-3xl p-12 text-center relative overflow-hidden shadow-2xl shadow-blue-500/50">
+          <div className="max-w-4xl mx-auto bg-gradient-to-r from-blue-400 to-indigo-400 dark:from-blue-500 to-indigo-600 rounded-3xl p-12 text-center relative overflow-hidden shadow-2xl shadow-blue-500/30">
             {/* Background Effects */}
             <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 to-purple-400/20 blur-3xl"></div>
 

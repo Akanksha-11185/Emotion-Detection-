@@ -61,7 +61,7 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-white pt-20 pb-16">
+    <div className="min-h-screen bg-white dark:bg-slate-950 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 pt-20 pb-16">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -70,10 +70,10 @@ export default function Login() {
           className="max-w-md mx-auto"
         >
           {/* Card */}
-          <div className="bg-white rounded-3xl shadow-2xl border-2 border-blue-100 p-8 md:p-10">
+          <div className="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl border-2 border-blue-100 dark:border-slate-800/70 p-8 md:p-10">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/50">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 dark:from-blue-500 dark:to-cyan-500 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/30 dark:shadow-none">
                 <LogIn className="w-8 h-8 text-white" />
               </div>
               <h1 className="text-4xl font-bold mb-2">
@@ -81,7 +81,7 @@ export default function Login() {
                   Welcome Back
                 </span>
               </h1>
-              <p className="text-slate-600">Log in to continue</p>
+              <p className="text-slate-600 dark:text-slate-400">Log in to continue</p>
             </div>
 
             {/* Error Message */}
@@ -100,7 +100,7 @@ export default function Login() {
             <form onSubmit={handleLogin} className="space-y-5">
               {/* Email Field */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-2">
                   Email Address
                 </label>
                 <div className="relative">
@@ -111,7 +111,7 @@ export default function Login() {
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full pl-12 pr-4 py-3.5 bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
@@ -119,12 +119,12 @@ export default function Login() {
               {/* Password Field */}
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <label className="block text-sm font-medium text-slate-700">
+                  <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">
                     Password
                   </label>
                   <button
                     type="button"
-                    className="text-xs text-blue-600 hover:text-blue-700 font-medium"
+                    className="text-xs text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-medium"
                   >
                     Forgot password?
                   </button>
@@ -137,12 +137,12 @@ export default function Login() {
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     placeholder="Enter your password"
-                    className="w-full pl-12 pr-12 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full pl-12 pr-12 py-3.5 bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 dark:text-slate-400 transition-colors"
                   >
                     {showPassword ? (
                       <EyeOff className="w-5 h-5" />
@@ -157,7 +157,7 @@ export default function Login() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/50 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/30 dark:shadow-none transition-all hover:scale-[1.01] active:scale-[0.99] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -172,16 +172,16 @@ export default function Login() {
 
             {/* Divider */}
             <div className="flex items-center gap-4 my-6">
-              <div className="flex-1 h-px bg-slate-200" />
-              <span className="text-sm text-slate-400 font-medium">OR</span>
-              <div className="flex-1 h-px bg-slate-200" />
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700" />
+              <span className="text-sm text-slate-400 dark:text-slate-500 font-medium">OR</span>
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700" />
             </div>
 
             {/* Google Login Button */}
             <button
               onClick={handleGoogleLogin}
               disabled={loading}
-              className="w-full py-4 bg-white hover:bg-slate-50 text-slate-700 font-semibold rounded-xl border-2 border-slate-200 hover:border-blue-300 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 shadow-sm hover:shadow-md"
+              className="w-full py-4 bg-white dark:bg-slate-900 hover:bg-slate-50 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-semibold rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-blue-300 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 shadow-sm hover:shadow-md"
             >
               {/* Google Logo SVG */}
               <svg
@@ -210,11 +210,11 @@ export default function Login() {
             </button>
 
             {/* Footer Link */}
-            <p className="text-center text-sm text-slate-600 mt-6">
+            <p className="text-center text-sm text-slate-600 dark:text-slate-400 mt-6">
               Don't have an account?{" "}
               <button
                 onClick={() => navigate("/signup")}
-                className="text-blue-600 hover:text-blue-700 font-semibold hover:underline"
+                className="text-blue-600 dark:text-blue-400 hover:text-blue-700 dark:hover:text-blue-300 font-semibold hover:underline"
               >
                 Sign up
               </button>
@@ -222,7 +222,7 @@ export default function Login() {
           </div>
 
           {/* Privacy Notice */}
-          <p className="text-center text-xs text-slate-500 mt-6 max-w-sm mx-auto">
+          <p className="text-center text-xs text-slate-500 dark:text-slate-500 mt-6 max-w-sm mx-auto">
             Protected by industry-standard encryption
           </p>
         </motion.div>

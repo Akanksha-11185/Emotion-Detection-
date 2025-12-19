@@ -12,22 +12,22 @@ export default function TextDetectionPage() {
   if (!user) return null;
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 pt-20">
+    <div className="min-h-screen bg-white dark:bg-slate-950 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 pt-20">
       <div className="container mx-auto px-4 py-8">
         {/* Header */}
         <div className="text-center mb-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-500/10 border border-indigo-500/30 rounded-full mb-4">
-            <UserCheck className="w-4 h-4 text-indigo-400" />
-            <span className="text-sm text-indigo-300">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-blue-500/10 border border-blue-500/30 rounded-full mb-4">
+            <UserCheck className="w-4 h-4 text-blue-600 dark:text-blue-400" />
+            <span className="text-sm font-medium text-blue-400 dark:text-blue-300">
               Logged in as {user.email}
             </span>
           </div>
 
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-white">
+          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-slate-900 dark:text-white">
             Text Emotion Detection
           </h1>
 
-          <p className="text-slate-400 max-w-2xl mx-auto">
+          <p className="text-slate-600 dark:text-slate-400 max-w-2xl mx-auto">
             Advanced emotion analysis from text — available exclusively for
             authenticated users.
           </p>
@@ -36,23 +36,23 @@ export default function TextDetectionPage() {
         {/* Main Grid */}
         <div className="grid lg:grid-cols-3 gap-6 mb-10">
           {/* Chat Section */}
-          <div className="lg:col-span-2 bg-slate-900/40 border border-slate-700/50 rounded-2xl p-4 shadow-xl shadow-blue-500/10">
+          <div className="lg:col-span-2 bg-white dark:bg-slate-900/40  border border-slate-200 dark:border-slate-700/50 rounded-2xl p-4 shadow-xl shadow-blue-500/10">
             <ChatBox onPredict={setPrediction} />
           </div>
 
           {/* Emotion Panel */}
-          <div className="lg:col-span-1 bg-slate-900/40 border border-slate-700/50 rounded-2xl p-4 shadow-xl shadow-indigo-500/10">
+          <div className="lg:col-span-1 bg-white dark:bg-slate-900/40  border border-slate-200 dark:border-slate-700/50 rounded-2xl p-4 shadow-xl shadow-indigo-500/10">
             <EmotionPanel prediction={prediction} />
           </div>
         </div>
 
         {/* Info Cards */}
         <div className="grid md:grid-cols-3 gap-4">
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-indigo-500/50 transition-all hover:shadow-lg hover:shadow-indigo-500/20">
+          <div className="bg-blue-50 dark:bg-slate-800/50 border border-blue-200 dark:border-slate-700/50 backdrop-blur-sm rounded-xl p-6 bg-white dark:bg-slate-900/40  hover:border-indigo-500/50 transition-all hover:shadow-lg hover:shadow-indigo-500/20">
             <div className="w-12 h-12 bg-indigo-500/20 rounded-lg flex items-center justify-center mb-4">
               <Brain className="w-6 h-6 text-indigo-400" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
               Higher Accuracy
             </h3>
             <p className="text-sm text-slate-400">
@@ -61,11 +61,11 @@ export default function TextDetectionPage() {
             </p>
           </div>
 
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-blue-500/50 transition-all hover:shadow-lg hover:shadow-blue-500/20">
+          <div className="bg-blue-50 dark:bg-slate-800/50 border border-blue-200 dark:border-slate-700/50 backdrop-blur-sm rounded-xl p-6 bg-white dark:bg-slate-900/40  hover:border-blue-500/50 transition-all hover:shadow-lg hover:shadow-blue-500/20">
             <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
               <Lock className="w-6 h-6 text-blue-400" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
               Secure Access
             </h3>
             <p className="text-sm text-slate-400">
@@ -74,11 +74,11 @@ export default function TextDetectionPage() {
             </p>
           </div>
 
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 hover:border-purple-500/50 transition-all hover:shadow-lg hover:shadow-purple-500/20">
+          <div className="bg-blue-50 dark:bg-slate-800/50 border border-blue-200 dark:border-slate-700/50 backdrop-blur-sm rounded-xl p-6 bg-white dark:bg-slate-900/40 hover:border-purple-500/50 transition-all hover:shadow-lg hover:shadow-purple-500/20">
             <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
               <UserCheck className="w-6 h-6 text-purple-400" />
             </div>
-            <h3 className="text-lg font-semibold text-white mb-2">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-white mb-2">
               Personalized
             </h3>
             <p className="text-sm text-slate-400">

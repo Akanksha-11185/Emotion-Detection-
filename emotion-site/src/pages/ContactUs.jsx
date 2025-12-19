@@ -49,7 +49,7 @@ export default function ContactUs() {
         </div>
 
         {/* Boundaries */}
-        <div className="rounded-xl bg-blue-50 dark:bg-slate-800 border border-blue-200 dark:border-slate-700 p-6">
+        <div className="rounded-xl bg-blue-50 dark:bg-slate-800/30 border border-blue-200 dark:border-slate-700/50 p-6">
           <h2 className="text-xl font-semibold text-blue-500 dark:text-blue-400 mb-3">
             Important Note
           </h2>

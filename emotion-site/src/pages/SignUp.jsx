@@ -95,7 +95,7 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-white pt-20 pb-16">
+    <div className="min-h-screen bg-white dark:bg-slate-950 dark:from-slate-950 dark:via-slate-900 dark:to-slate-950 pt-20 pb-16">
       <div className="container mx-auto px-4">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -104,18 +104,18 @@ export default function Signup() {
           className="max-w-md mx-auto"
         >
           {/* Card */}
-          <div className="bg-white rounded-3xl shadow-2xl border-2 border-blue-100 p-8 md:p-10">
+          <div className="bg-white  dark:bg-slate-900 rounded-3xl shadow-2xl border-2 border-blue-100 dark:border-slate-800 p-8 md:p-10">
             {/* Header */}
             <div className="text-center mb-8">
-              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-600 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/50">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-cyan-400 rounded-2xl flex items-center justify-center mx-auto mb-4 shadow-lg shadow-blue-500/30 dark:shadow-none">
                 <UserPlus className="w-8 h-8 text-white" />
               </div>
               <h1 className="text-4xl font-bold mb-2">
-                <span className="bg-gradient-to-r from-blue-600 to-cyan-600 bg-clip-text text-transparent">
+                <span className="bg-gradient-to-r from-blue-600 to-cyan-400 bg-clip-text text-transparent">
                   Create Account
                 </span>
               </h1>
-              <p className="text-slate-600">Sign up to get started</p>
+              <p className="text-slate-600 dark:text-slate-300">Sign up to get started</p>
             </div>
 
             {/* Error Message */}
@@ -123,7 +123,7 @@ export default function Signup() {
               <motion.div
                 initial={{ opacity: 0, scale: 0.95 }}
                 animate={{ opacity: 1, scale: 1 }}
-                className="mb-6 flex items-start gap-3 bg-red-50 border-2 border-red-200 text-red-800 px-4 py-3 rounded-xl"
+                className="mb-6 flex items-start gap-3 bg-red-50 dark:bg-red-950/40 border-2 border-red-200 dark:border-red-800 text-red-800 dark:text-red-300 px-4 py-3 rounded-xl"
               >
                 <AlertCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
                 <span className="text-sm">{error}</span>
@@ -134,29 +134,29 @@ export default function Signup() {
             <div className="space-y-5">
               {/* Email Field */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
                   Email Address
                 </label>
                 <div className="relative">
-                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 dark:text-slate-500" />
                   <input
                     type="email"
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
                     placeholder="you@example.com"
-                    className="w-full pl-12 pr-4 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full pl-12 pr-4 py-3.5 bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                 </div>
               </div>
 
               {/* Password Field */}
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-2">
+                <label className="block text-sm font-medium text-slate-600 dark:text-slate-300 mb-2">
                   Password
                 </label>
                 <div className="relative">
-                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <Lock className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 dark:text-slate-500" />
                   <input
                     type={showPassword ? "text" : "password"}
                     required
@@ -164,12 +164,12 @@ export default function Signup() {
                     onChange={(e) => setPassword(e.target.value)}
                     onFocus={() => setPasswordFocused(true)}
                     placeholder="Create a strong password"
-                    className="w-full pl-12 pr-12 py-3.5 bg-slate-50 border-2 border-slate-200 rounded-xl text-slate-800 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    className="w-full pl-12 pr-12 py-3.5 bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl text-slate-800 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   />
                   <button
                     type="button"
                     onClick={() => setShowPassword(!showPassword)}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 transition-colors"
+                    className="absolute right-4 top-1/2 -translate-y-1/2 text-slate-400 dark:text-slate-500 hover:text-slate-600 dark:hover:text-slate-300 dark:text-slate-300 transition-colors"
                   >
                     {showPassword ? (
                       <EyeOff className="w-5 h-5" />
@@ -206,8 +206,8 @@ export default function Signup() {
 
                     {/* Requirements Checklist */}
                     {passwordFocused && (
-                      <div className="bg-slate-50 border-2 border-slate-200 rounded-xl p-4 space-y-2">
-                        <p className="text-xs font-semibold text-slate-600 mb-2">
+                      <div className="bg-slate-50 dark:bg-slate-800 border-2 border-slate-200 dark:border-slate-700 rounded-xl p-4 space-y-2">
+                        <p className="text-xs font-semibold text-slate-600 dark:text-slate-300 mb-2">
                           Password must contain:
                         </p>
                         {[
@@ -230,7 +230,7 @@ export default function Signup() {
                             {passwordStrength.checks[key] ? (
                               <Check className="w-4 h-4 text-green-500" />
                             ) : (
-                              <X className="w-4 h-4 text-slate-400" />
+                              <X className="w-4 h-4 text-slate-400 dark:text-slate-500" />
                             )}
                             <span
                               className={`text-xs ${
@@ -254,7 +254,7 @@ export default function Signup() {
                 type="submit"
                 onClick={handleSignup}
                 disabled={loading || passwordStrength.score < 4}
-                className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/50 transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="w-full py-4 bg-gradient-to-r from-blue-600 to-cyan-400 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold rounded-xl shadow-lg shadow-blue-500/30 dark:shadow-none transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-80 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -269,16 +269,16 @@ export default function Signup() {
 
             {/* Divider */}
             <div className="flex items-center gap-4 my-6">
-              <div className="flex-1 h-px bg-slate-200" />
-              <span className="text-sm text-slate-400 font-medium">OR</span>
-              <div className="flex-1 h-px bg-slate-200" />
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700" />
+              <span className="text-sm text-slate-400 dark:text-slate-500 font-medium">OR</span>
+              <div className="flex-1 h-px bg-slate-200 dark:bg-slate-700" />
             </div>
 
             {/* Google Signup Button */}
             <button
               onClick={handleGoogleSignup}
               disabled={loading}
-              className="w-full py-4 bg-white hover:bg-slate-50 text-slate-700 font-semibold rounded-xl border-2 border-slate-200 hover:border-blue-300 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 shadow-sm hover:shadow-md"
+              className="w-full py-4 bg-white hover:bg-slate-50 dark:bg-slate-800/80 text-slate-500 font-semibold rounded-xl border-2 border-slate-200 dark:border-slate-700 hover:border-blue-300 dark:hover:border-slate-600 transition-all hover:scale-[1.02] active:scale-[0.98] flex items-center justify-center gap-3 shadow-sm hover:shadow-md"
             >
               {/* Google Logo SVG */}
               <svg
@@ -307,7 +307,7 @@ export default function Signup() {
             </button>
 
             {/* Footer Link */}
-            <p className="text-center text-sm text-slate-600 mt-6">
+            <p className="text-center text-sm text-slate-600 dark:text-slate-300 mt-6">
               Already have an account?{" "}
               <button
                 onClick={() => navigate("/login")}
