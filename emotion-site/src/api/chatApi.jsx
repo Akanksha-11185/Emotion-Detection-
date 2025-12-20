@@ -19,24 +19,29 @@ async function postJson(path, body, timeoutMs = 15000) {
       signal: controller.signal,
       body: JSON.stringify(body),
     });
+
     clearTimeout(timer);
+
     const text = await res.text().catch(() => "");
     let payload = null;
+
     try {
       payload = text ? JSON.parse(text) : null;
     } catch {
       payload = text;
     }
+
     if (!res.ok) {
       const err = new Error(payload?.detail || `API Error (${res.status})`);
       err.status = res.status;
       err.payload = payload;
       throw err;
     }
+
     return payload;
   } catch (err) {
     clearTimeout(timer);
-    // Normalize abort error
+
     if (err.name === "AbortError") {
       const e = new Error("Request timed out");
       e.status = 408;
@@ -48,25 +53,30 @@ async function postJson(path, body, timeoutMs = 15000) {
 
 /**
  * Calls backend emotion predict endpoint (POST /emotion/predict)
- * Returns object { preds_multi_hot, top_k, probs } or throws.
  */
 export async function analyzeEmotion(text) {
   return postJson("/emotion/predict", { text });
 }
 
 /**
+ * ✅ UPDATED
  * Calls backend chat reply endpoint (POST /chat/reply)
- * Backend returns shape:
- * { action: "reply"|"escalate", reply?, model?, safety?, message? }
+ * Now sends turn_count for hybrid LLM activation
  */
-export async function getChatReply(text, session_id = null) {
-  const body = { text };
+export async function getChatReply(text, session_id = null, turn_count = 1) {
+  const body = {
+    text,
+    threshold: 0.1,
+    turn_count,
+  };
+
   if (session_id) body.session_id = session_id;
+
   return postJson("/chat/reply", body, 20000);
 }
 
 /**
- * Fallback local mock (used if backend unreachable)
+ * Fallback local mock (unchanged)
  */
 export function mockPredictLocal(text) {
   const labels = ["joy", "sadness", "anger", "fear", "neutral"];
@@ -86,6 +96,7 @@ export function mockChatLocal(text, prediction) {
   const low = (text || "").toLowerCase();
   const crisis = ["kill myself", "i want to die", "suicide", "cant live"];
   const flagged = crisis.some((k) => low.includes(k));
+
   if (flagged) {
     return {
       reply:
@@ -93,12 +104,14 @@ export function mockChatLocal(text, prediction) {
       flagged: true,
     };
   }
+
   const replies = [
     "Thanks for sharing — that sounds important. Can you tell me a bit more?",
     "I hear you. How long have you been feeling like this?",
     "That must be difficult. Do you want to explore what triggered this feeling?",
     "I’m listening — thank you for telling me.",
   ];
+
   const reply = replies[text.length % replies.length];
   return { reply, flagged: false, emotion: prediction };
 }

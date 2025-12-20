@@ -36,13 +36,17 @@ export default function ChatBox({ onPredict = null }) {
     {
       id: "bot-start",
       who: "bot",
-      text: "I’m here with you. You can share anything — there’s no judgment and no identity attached.",
+      text: "I'm here with you. You can share anything — there's no judgment and no identity attached.",
       timestamp: new Date(),
     },
   ]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
+
+  // ✅ CHANGE 1: Add turnCount state
+  const [turnCount, setTurnCount] = useState(1);
+
   const messagesRef = useRef(null);
   const inputRef = useRef(null);
 
@@ -101,9 +105,10 @@ export default function ChatBox({ onPredict = null }) {
       }
 
       // 2) Get chat reply
+      // ✅ CHANGE 2: Pass turnCount to getChatReply
       let chatReply;
       try {
-        chatReply = await getChatReply(text, sessionId);
+        chatReply = await getChatReply(text, sessionId, turnCount);
         // Expect shape: { action, reply, model, safety, message }
       } catch (err) {
         console.warn("getChatReply failed, using mockChatLocal:", err);
@@ -176,6 +181,9 @@ export default function ChatBox({ onPredict = null }) {
     } finally {
       setLoading(false);
       inputRef.current?.focus();
+
+      // ✅ CHANGE 3: Increment turn count after sending
+      setTurnCount((prev) => prev + 1);
     }
   }
 
@@ -212,7 +220,7 @@ export default function ChatBox({ onPredict = null }) {
               </h3>
               <p className="text-xs text-slate-400">
                 Confidential • Non-judgmental
-              </p>  
+              </p>
             </div>
           </div>
           <div className="text-xs text-slate-500">
@@ -267,7 +275,7 @@ export default function ChatBox({ onPredict = null }) {
         )}
       </div>
 
-            {/* Input Area */}
+      {/* Input Area */}
       <div className="px-4 py-4 bg-white dark:bg-slate-900/80 border-t border-slate-200 dark:border-slate-700/50 backdrop-blur-sm">
         <div className="space-y-2">
           <div className="flex gap-2 items-end">
@@ -280,7 +288,7 @@ export default function ChatBox({ onPredict = null }) {
               onKeyDown={handleKeyDown}
               placeholder="Share how you're feeling..."
               className="flex-1 resize-none bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400/30"
-              style={{ maxHeight: '120px' }}
+              style={{ maxHeight: "120px" }}
             />
             <button
               type="button"
