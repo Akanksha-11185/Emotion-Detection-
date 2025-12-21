@@ -1,73 +1,98 @@
 // src/App.jsx
 import React, { useState } from "react";
-import Header from "./components/Header";
-import ChatBox from "./components/ChatBox";
-import EmotionPanel from "./components/EmotionPanel";
-import { Shield, Brain, Heart } from "lucide-react";
+import { Routes, Route, useLocation } from "react-router-dom";
+
+import Navbar from "./components/Navbar";
+import Home from "./components/Home";
+import AnonymousPage from "./pages/AnonymousPage";
+import AdminDashboard from "./components/AdminDashboard";
+import Footer from "./components/Footer";
+
+import About from "./pages/About";
+import HowItWorks from "./pages/HowItWorks";
+import Privacy from "./pages/Privacy";
+import ContactUs from "./pages/ContactUs";
+import ScrollToTop from "./components/ScrollToTop";
+import TextDetectionPage from "./pages/TextDetectionPage";
+import Login from "./pages/Login";
+import SignUp from "./pages/SignUp";
+import ProtectedRoute from "./components/ProtectedRoute";
+import ScreenshotEmotion from "./pages/ScreenshotEmotion";
 
 export default function App() {
-  const [prediction, setPrediction] = useState(null);
+  const [user, setUser] = useState(null);
+  const location = useLocation();
+
+  // routes where footer should be hidden
+  const hideFooterRoutes = [
+    "/privacy",
+    "/about",
+    "/how-it-works",
+    "/contact",
+    "/login",
+    "/text-detection",
+    "/signup",
+  ];
+  const hideFooter = hideFooterRoutes.includes(location.pathname);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
-      <Header />
+    <div className="min-h-screen bg-white text-slate-700 dark:bg-slate-950 dark:text-slate-400">
 
-      <main className="container mx-auto px-4 py-8">
-        {/* Main Grid: Chat + Emotion Panel */}
-        <div className="grid lg:grid-cols-3 gap-6">
-          {/* Chat Section - Takes 2 columns */}
-          <div className="lg:col-span-2">
-            <ChatBox onPredict={setPrediction} />
-          </div>
+      <Navbar user={user} />
+      <ScrollToTop />
 
-          {/* Emotion Panel - Takes 1 column */}
-          <div className="lg:col-span-1">
-            <EmotionPanel prediction={prediction} />
-          </div>
+      <main className="pt-8"></main>
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/anonymous" element={<AnonymousPage />} />
+        <Route path="/admin" element={<AdminDashboard />} />
+
+        <Route path="/about" element={<About />} />
+        <Route path="/how-it-works" element={<HowItWorks />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/contact" element={<ContactUs />} />
+
+        <Route
+          path="/text-detection"
+          element={<TextDetectionPage user={user} />}
+        />
+
+        <Route path="/screenshot-detection" element={<ScreenshotEmotion />} />
+
+        <Route path="/login" element={<Login setUser={setUser} />} />
+        <Route path="/signup" element={<SignUp />} />
+        <Route
+          path="/detect"
+          element={
+            <ProtectedRoute>
+              <TextDetectionPage />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/vision/screenshot-analysis"
+          element={<ScreenshotEmotion />}
+        />
+      </Routes>
+
+      {/* ✅ Footer hidden only on selected pages */}
+      {!hideFooter && <Footer />}
+    </div>
+  );
+}
+
+function ComingSoon({ title }) {
+  return (
+    <div className="min-h-screen flex items-center justify-center pt-28">
+      <div className="text-center px-4">
+        <div className="w-24 h-24 bg-gradient-to-br from-blue-500 to-indigo-600 rounded-full flex items-center justify-center mx-auto mb-6 animate-pulse shadow-xl shadow-blue-500/40">
+          <span className="text-4xl">🚧</span>
         </div>
-
-        {/* Info Cards Section */}
-        <div className="mt-8 grid md:grid-cols-3 gap-4">
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 transition-all duration-200 hover:scale-[1.03] hover:shadow-2xl hover:border-emerald-400/40 cursor-pointer">
-            <div className="w-12 h-12 bg-emerald-500/20 rounded-lg flex items-center justify-center mb-4">
-              <Shield className="w-6 h-6 text-emerald-400" />
-            </div>
-            <h3 className="text-lg font-semibold text-slate-100 mb-2">
-              100% Private
-            </h3>
-            <p className="text-sm text-slate-400">
-              Your conversations are anonymous and confidential. We never store
-              identifiable information.
-            </p>
-          </div>
-
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 transition-all duration-200 hover:scale-[1.03] hover:shadow-2xl hover:border-purple-400/30 cursor-pointer">
-            <div className="w-12 h-12 bg-purple-500/20 rounded-lg flex items-center justify-center mb-4">
-              <Brain className="w-6 h-6 text-purple-400" />
-            </div>
-            <h3 className="text-lg font-semibold text-slate-100 mb-2">
-              AI-Powered
-            </h3>
-            <p className="text-sm text-slate-400">
-              Advanced emotion detection using state-of-the-art machine learning
-              models.
-            </p>
-          </div>
-
-          <div className="bg-slate-800/50 backdrop-blur-sm rounded-xl p-6 border border-slate-700/50 transition-all duration-200 hover:scale-[1.03] hover:shadow-2xl hover:border-blue-400/30 cursor-pointer">
-            <div className="w-12 h-12 bg-blue-500/20 rounded-lg flex items-center justify-center mb-4">
-              <Heart className="w-6 h-6 text-blue-400" />
-            </div>
-            <h3 className="text-lg font-semibold text-slate-100 mb-2">
-              Always Here
-            </h3>
-            <p className="text-sm text-slate-400">
-              24/7 support whenever you need someone to talk to. Not a
-              replacement for professional help.
-            </p>
-          </div>
-        </div>
-      </main>
+        <h1 className="text-4xl font-bold mb-4 text-white">{title}</h1>
+        <p className="text-slate-400 mb-8 text-lg">
+          This feature is coming soon!
+        </p>
+      </div>
     </div>
   );
 }

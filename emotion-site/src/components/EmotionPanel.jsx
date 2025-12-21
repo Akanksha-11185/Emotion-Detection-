@@ -11,10 +11,10 @@ function EmotionBar({ label, value, index }) {
       anger: "from-red-400 to-rose-500",
       fear: "from-purple-400 to-violet-500",
       surprise: "from-pink-400 to-fuchsia-500",
-      disgust: "from-green-400 to-emerald-500",
+      disgust: "from-green-400 to-blue-500",
       neutral: "from-slate-400 to-slate-500",
     };
-    return colors[emotion.toLowerCase()] || "from-emerald-400 to-teal-500";
+    return colors[emotion.toLowerCase()] || "from-blue-400 to-indigo-500";
   };
 
   const getEmotionIcon = (emotion) => {
@@ -33,19 +33,19 @@ function EmotionBar({ label, value, index }) {
 
   return (
     <div
-      className="mb-3 animate-in fade-in slide-in-from-left-2 duration-300 transition-all hover:scale-[1.01] hover:brightness-105"
+      className="mb-3 animate-in fade-in slide-in-from-left-2 duration-300 transition-all hover:brightness-105"
       style={{ animationDelay: `${index * 100}ms` }}
     >
-      <div className="flex justify-between items-center text-xs text-slate-300 mb-1.5">
+      <div className="flex justify-between items-center text-xs text-slate-600 dark:text-slate-300 mb-1.5">
         <span className="flex items-center gap-2 font-medium">
           <span className="text-lg">{getEmotionIcon(label)}</span>
           <span className="capitalize">{label}</span>
         </span>
-        <span className="font-semibold text-emerald-400">
+        <span className="font-semibold text-blue-600 dark:text-blue-400">
           {Math.round(value * 100)}%
         </span>
       </div>
-      <div className="relative h-3 bg-slate-700/50 rounded-full overflow-hidden border border-slate-600/50 transition-all hover:shadow-lg hover:border-emerald-400/40 cursor-pointer">
+      <div className="relative h-3 bg-slate-200 dark:bg-slate-700/50 rounded-full overflow-hidden border border-slate-600/50 transition-all hover:shadow-lg hover:border-blue-400/40 cursor-pointer">
         <div
           style={{ width: `${Math.round(value * 100)}%` }}
           className={`h-full bg-gradient-to-r ${getEmotionColor(
@@ -62,20 +62,20 @@ function EmotionBar({ label, value, index }) {
 export default function EmotionPanel({ prediction }) {
   if (!prediction) {
     return (
-      <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 border border-slate-700/50 shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] cursor-pointer">
+      <div className="bg-white dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700/50 rounded-xl p-6 border border-slate-700/50 shadow-xl transition-all duration-300 hover:shadow-2xl hover:shadow-xl cursor-pointer">
         <div className="flex items-center gap-3 mb-4">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center">
             <Brain className="w-5 h-5 text-white" />
           </div>
-          <h3 className="text-lg font-semibold text-slate-100">
+          <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
             Emotion Analysis
           </h3>
         </div>
         <div className="flex flex-col items-center justify-center py-8 text-center">
-          <div className="w-16 h-16 bg-slate-700/50 rounded-full flex items-center justify-center mb-4">
+          <div className="w-16 h-16 bg-slate-200 dark:bg-slate-700/50 rounded-full flex items-center justify-center mb-4">
             <Zap className="w-8 h-8 text-slate-500" />
           </div>
-          <p className="text-slate-400 text-sm mb-2">
+          <p className="text-slate-600 dark:text-slate-400">
             Send a message to see AI-powered emotion detection
           </p>
           <p className="text-xs text-slate-500">
@@ -91,33 +91,35 @@ export default function EmotionPanel({ prediction }) {
   const topValue = top[0]?.[1] || 0;
 
   return (
-    <div className="bg-gradient-to-br from-slate-800 to-slate-900 rounded-xl p-6 border border-slate-700/50 shadow-xl transition-all duration-300 hover:shadow-2xl hover:scale-[1.02] cursor-pointer">
+    <div className="bg-white dark:bg-gradient-to-br dark:from-slate-800 dark:to-slate-900 text-slate-900 dark:text-slate-100 border border-slate-200 dark:border-slate-700/50 rounded-xl p-6 border border-slate-700/50 shadow-xl transition-all duration-300 hover:shadow-2xl cursor-pointer">
       <div className="flex items-center justify-between mb-6">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 bg-gradient-to-br from-purple-500 to-pink-500 rounded-lg flex items-center justify-center animate-pulse">
+          <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-indigo-500 rounded-lg flex items-center justify-center animate-pulse">
             <Brain className="w-5 h-5 text-white" />
           </div>
           <div>
-            <h3 className="text-lg font-semibold text-slate-100">
+            <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100 mb-2">
+
               Emotion Analysis
             </h3>
             <p className="text-xs text-slate-400">Top detected emotions</p>
           </div>
         </div>
-        <div className="flex items-center gap-1 text-xs text-emerald-400">
+        <div className="flex items-center gap-1 text-xs text-blue-400">
           <TrendingUp className="w-3 h-3" />
           <span>Live</span>
         </div>
       </div>
 
       {/* Primary Emotion Card */}
-      <div className="mb-6 p-4 bg-slate-700/30 rounded-lg border border-slate-600/50 transition-all duration-200 hover:shadow-2xl hover:-translate-y-0.5 cursor-pointer">
-        <p className="text-xs text-slate-400 mb-2">Primary Emotion</p>
+      <div className="mb-6 p-4 bg-blue-50 border border-blue-200 dark:bg-slate-700/30 dark:border-slate-600/50 transition-all duration-200 hover:shadow-2xl hover:-translate-y-0.5 cursor-pointer">
+        <p className="text-xs text-slate-500 mb-2">Primary Emotion</p>
         <div className="flex items-center justify-between">
-          <span className="text-2xl font-bold capitalize text-slate-100">
+          <span className="text-2xl font-bold capitalize text-slate-900 dark:text-slate-100">
             {topEmotion}
           </span>
-          <span className="text-3xl font-bold text-emerald-400">
+          <span className="text-3xl font-bold text-blue-600 dark:text-blue-400">
+
             {Math.round(topValue * 100)}%
           </span>
         </div>
@@ -132,7 +134,7 @@ export default function EmotionPanel({ prediction }) {
 
       {/* Info Footer */}
       <div className="mt-6 pt-4 border-t border-slate-700/50">
-        <p className="text-xs text-slate-500 text-center">
+        <p className="text-xs text-slate-500 dark:text-slate-500 text-center">
           Analysis updated in real-time • Powered by ML
         </p>
       </div>

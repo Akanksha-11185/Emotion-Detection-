@@ -1,6 +1,6 @@
 // src/components/ChatBox.jsx
 import React, { useEffect, useRef, useState } from "react";
-import { MessageCircle, Send, AlertCircle } from "lucide-react";
+import { MessageCircle, Send, AlertCircle, Trash2 } from "lucide-react";
 import {
   analyzeEmotion,
   getChatReply,
@@ -12,7 +12,7 @@ import { v4 as uuidv4 } from "uuid";
 // Typing Indicator Component
 function TypingIndicator() {
   return (
-    <div className="flex items-center space-x-2 px-4 py-3 bg-slate-700/50 rounded-lg max-w-[100px] transition-all duration-200 hover:scale-105 cursor-default">
+    <div className="flex items-center space-x-2 px-4 py-2.5 bg-slate-700/50 rounded-lg max-w-[100px] transition-all duration-200 cursor-default">
       <div className="flex space-x-1">
         <div
           className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
@@ -31,22 +31,29 @@ function TypingIndicator() {
   );
 }
 
-export default function ChatBox({ onPredict = null }) {
-  const [messages, setMessages] = useState([
-    {
-      id: "bot-start",
-      who: "bot",
-      text: "Hi — I'm here to listen. Tell me how you're feeling.",
-      timestamp: new Date(),
-    },
-  ]);
+export default function ChatBox({
+  onPredict = null,
+  onHistoryUpdate = null,
+  onClearChat = null,
+  selectedHistory = null,
+}) {
+  const initialMessage = {
+    id: "bot-start",
+    who: "bot",
+    text: "I'm here with you. You can share anything — there's no judgment and no identity attached.",
+    timestamp: new Date(),
+  };
+
+  const [messages, setMessages] = useState([initialMessage]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorText, setErrorText] = useState("");
-  const messagesRef = useRef(null);
+  const [showClearConfirm, setShowClearConfirm] = useState(false);
+  const [turnCount, setTurnCount] = useState(1);
+
+  const messagesEndRef = useRef(null);
   const inputRef = useRef(null);
 
-  // Session ID
   const [sessionId] = useState(() => {
     try {
       const s = localStorage.getItem("anon_session_id");
@@ -59,16 +66,29 @@ export default function ChatBox({ onPredict = null }) {
     }
   });
 
-  // Auto-scroll to bottom
+  // Load selected history conversation
   useEffect(() => {
-    if (!messagesRef.current) return;
-    messagesRef.current.scrollTo({
-      top: messagesRef.current.scrollHeight,
-      behavior: "smooth",
-    });
+    if (selectedHistory && selectedHistory.messages) {
+      setMessages(selectedHistory.messages);
+      // Scroll to bottom after loading history
+      setTimeout(() => {
+        messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+      }, 100);
+    }
+  }, [selectedHistory]);
+
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, loading]);
 
-  // Handle send message
+  const handleClearChat = () => {
+    setMessages([initialMessage]);
+    setShowClearConfirm(false);
+    setTurnCount(1);
+    if (onClearChat) onClearChat();
+  };
+
   async function handleSend() {
     setErrorText("");
     const text = input.trim();
@@ -106,31 +126,87 @@ export default function ChatBox({ onPredict = null }) {
       // 2) Get chat reply
       let chatReply;
       try {
-        chatReply = await getChatReply(text, sessionId);
+        chatReply = await getChatReply(text, sessionId, turnCount);
       } catch (err) {
         console.warn("getChatReply failed, using mockChatLocal:", err);
         chatReply = mockChatLocal(text, pred);
       }
 
+      // Normalize chatReply for older mock shapes:
+      if (chatReply && chatReply.action === undefined) {
+        if (chatReply.flagged) {
+          chatReply = {
+            action: "escalate",
+            reply: chatReply.reply,
+            flagged: true,
+            model: pred,
+            safety: { safe: false, severity: "severe", keywords: [] },
+          };
+        } else {
+          chatReply = {
+            action: "reply",
+            reply: chatReply.reply,
+            model: pred,
+            safety: { safe: true, severity: "normal", keywords: [] },
+          };
+        }
+      }
+
+      // Build bot message
+      const botText =
+        chatReply.action === "reply"
+          ? chatReply.reply
+          : chatReply.reply ||
+            "⚠️ We detected potential high distress. This message has been flagged for review.";
+
       const botMsg = {
         id: `b-${Date.now()}`,
         who: "bot",
-        text: chatReply.reply || "Sorry — something went wrong.",
+        text: botText,
         timestamp: new Date(),
       };
 
-      setMessages((m) => [...m, botMsg]);
+      setMessages((m) => {
+        const updatedMessages = [...m, botMsg];
 
-      if (chatReply.flagged) {
+        // Save to history after adding bot message
+        if (onHistoryUpdate) {
+          try {
+            onHistoryUpdate({
+              id: `session-${Date.now()}`,
+              userMessage: text,
+              prediction: chatReply.model || pred,
+              timestamp: userMsg.timestamp,
+              messages: updatedMessages,
+            });
+          } catch {
+            /* ignore */
+          }
+        }
+
+        return updatedMessages;
+      });
+
+      // If escalate, add system note
+      if (chatReply.action === "escalate") {
         setMessages((m) => [
           ...m,
           {
             id: `sys-${Date.now()}`,
             who: "system",
-            text: "⚠️ Message flagged for review (human team).",
+            text: "⚠️ Message flagged for human review. If you are in immediate danger, contact emergency services.",
             timestamp: new Date(),
           },
         ]);
+      }
+
+      // Inform parent about prediction
+      if (onPredict && chatReply.model) {
+        try {
+          onPredict(chatReply.model);
+        } catch {
+          /* ignore */
+        }
       }
     } catch (err) {
       console.error(err);
@@ -140,6 +216,7 @@ export default function ChatBox({ onPredict = null }) {
     } finally {
       setLoading(false);
       inputRef.current?.focus();
+      setTurnCount((prev) => prev + 1);
     }
   }
 
@@ -159,32 +236,62 @@ export default function ChatBox({ onPredict = null }) {
   };
 
   return (
-    <div className="flex flex-col h-full min-h-[600px] bg-gradient-to-b from-slate-900 to-slate-800 rounded-xl shadow-2xl overflow-hidden border border-slate-700/50">
+    <div className="flex flex-col h-[600px] bg-white dark:bg-gradient-to-b dark:from-slate-900 dark:to-slate-800 text-slate-900 dark:text-slate-100 rounded-xl shadow-2xl overflow-hidden border border-slate-200 dark:border-slate-700/50">
       {/* Header */}
-      <div className="px-5 py-4 border-b border-slate-700/50 bg-slate-900/80 backdrop-blur-sm">
+      <div className="px-5 py-4 border-b bg-slate-50 dark:bg-slate-900/80 border-slate-200 dark:border-slate-700/50 backdrop-blur-sm flex-shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <div className="relative">
-              <div className="w-10 h-10 bg-gradient-to-br from-emerald-400 to-teal-500 rounded-full flex items-center justify-center">
-                <MessageCircle className="w-5 h-5 text-slate-900" />
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-400 to-indigo-500 rounded-full flex items-center justify-center">
+                <MessageCircle className="w-5 h-5 text-slate-900 dark:text-slate-100" />
               </div>
-              <div className="absolute bottom-0 right-0 w-3 h-3 bg-emerald-400 rounded-full border-2 border-slate-900"></div>
+              <div className="absolute bottom-0 right-0 w-3 h-3 bg-blue-400 rounded-full border-2 border-slate-50 dark:border-slate-900"></div>
             </div>
             <div>
-              <h3 className="text-lg font-semibold text-slate-100">
-                AI Assistant
+              <h3 className="text-lg font-semibold text-slate-900 dark:text-slate-100">
+                AI Support Assistant
               </h3>
-              <p className="text-xs text-slate-400">Here to listen & support</p>
+              <p className="text-xs text-slate-400">
+                Confidential • Non-judgmental
+              </p>
             </div>
           </div>
-          <div className="text-xs text-slate-500">
-            Session: <span className="font-mono">{sessionId.slice(0, 8)}</span>
+
+          {/* Clear Chat Button */}
+          <div className="relative">
+            {!showClearConfirm ? (
+              <button
+                onClick={() => setShowClearConfirm(true)}
+                className="p-2 hover:bg-slate-200 dark:hover:bg-slate-700 rounded-lg transition-colors"
+                title="Clear chat"
+              >
+                <Trash2 className="w-5 h-5 text-slate-500 dark:text-slate-400" />
+              </button>
+            ) : (
+              <div className="flex items-center gap-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg px-3 py-1">
+                <span className="text-xs text-red-600 dark:text-red-400">
+                  Clear?
+                </span>
+                <button
+                  onClick={handleClearChat}
+                  className="text-xs px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600 transition-colors"
+                >
+                  Yes
+                </button>
+                <button
+                  onClick={() => setShowClearConfirm(false)}
+                  className="text-xs px-2 py-1 bg-slate-300 dark:bg-slate-700 text-slate-900 dark:text-slate-100 rounded hover:bg-slate-400 dark:hover:bg-slate-600 transition-colors"
+                >
+                  No
+                </button>
+              </div>
+            )}
           </div>
         </div>
       </div>
 
-      {/* Messages */}
-      <div ref={messagesRef} className="flex-1 overflow-auto p-5 space-y-4">
+      {/* Messages - Fixed height with scroll */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-4 min-h-0">
         {messages.map((m) => (
           <div
             key={m.id}
@@ -198,12 +305,12 @@ export default function ChatBox({ onPredict = null }) {
               }`}
             >
               <div
-                className={`inline-block px-4 py-3 rounded-2xl shadow-lg transition-transform transition-colors duration-200 ease-out transform hover:-translate-y-0.5 hover:shadow-2xl ${
+                className={`inline-block px-4 py-2.5 rounded-2xl shadow-lg transition-transform transition-colors duration-200 ease-out transform hover:-translate-y-0.5 hover:shadow-2xl ${
                   m.who === "user"
-                    ? "bg-gradient-to-br from-emerald-400 to-teal-500 text-slate-900 rounded-br-md hover:brightness-105 cursor-default"
+                    ? "bg-gradient-to-br from-blue-400 to-indigo-400 text-slate-900 dark:text-slate-100 rounded-br-md hover:brightness-105 cursor-default"
                     : m.who === "bot"
-                    ? "bg-slate-700/80 backdrop-blur-sm text-slate-100 rounded-bl-md border border-slate-600/50 hover:brightness-105 cursor-pointer"
-                    : "bg-yellow-600/20 text-yellow-300 border border-yellow-600/30 rounded-lg cursor-default hover:brightness-110"
+                    ? "bg-slate-100 dark:bg-slate-700/80 text-slate-900 dark:text-slate-100 rounded-bl-md border border-slate-200 dark:border-slate-600/50 hover:brightness-105 cursor-pointer"
+                    : "bg-blue-50 text-blue-800 border border-blue-200 dark:bg-yellow-600/20 dark:text-yellow-300 dark:border-yellow-600/30 rounded-lg cursor-default"
                 }`}
               >
                 <p className="text-sm leading-relaxed break-words">{m.text}</p>
@@ -222,15 +329,17 @@ export default function ChatBox({ onPredict = null }) {
         )}
 
         {errorText && (
-          <div className="flex items-center space-x-2 px-4 py-3 bg-red-500/10 border border-red-500/30 rounded-lg">
+          <div className="flex items-center space-x-2 px-4 py-2.5 bg-red-500/10 border border-red-500/30 rounded-lg">
             <AlertCircle className="w-4 h-4 text-red-400" />
             <p className="text-sm text-red-400">{errorText}</p>
           </div>
         )}
+
+        <div ref={messagesEndRef} />
       </div>
 
-      {/* Input Area */}
-      <div className="px-4 py-4 border-t border-slate-700/50 bg-slate-900/80 backdrop-blur-sm">
+      {/* Input Area - Fixed at bottom */}
+      <div className="px-4 py-4 bg-white dark:bg-slate-900/80 border-t border-slate-200 dark:border-slate-700/50 backdrop-blur-sm flex-shrink-0">
         <div className="space-y-2">
           <div className="flex gap-2 items-end">
             <textarea
@@ -241,27 +350,29 @@ export default function ChatBox({ onPredict = null }) {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKeyDown}
               placeholder="Share how you're feeling..."
-              className="flex-1 resize-none bg-slate-800 rounded-xl px-4 py-3 text-slate-100 border border-slate-700 focus:outline-none focus:ring-2 focus:ring-emerald-400/50 focus:border-emerald-400 transition-all placeholder:text-slate-500"
+              className="flex-1 resize-none bg-white dark:bg-slate-800 text-slate-900 dark:text-slate-100 border border-slate-300 dark:border-slate-700 placeholder:text-slate-400 dark:placeholder:text-slate-500 rounded-lg px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-400/30"
               style={{ maxHeight: "120px" }}
             />
             <button
               type="button"
               onClick={handleSend}
-              className="bg-gradient-to-br from-emerald-400 to-teal-500 hover:from-emerald-500 hover:to-teal-600 text-slate-900 font-semibold px-5 py-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed transition-all shadow-lg hover:shadow-2xl hover:scale-105 active:scale-95 focus:outline-none focus:ring-4 focus:ring-emerald-400/30 flex items-center space-x-2"
               disabled={loading || !input.trim()}
+              className="bg-blue-500 hover:bg-blue-600 dark:bg-gradient-to-br dark:from-blue-400 dark:to-indigo-500 dark:hover:from-blue-500 dark:hover:to-indigo-600 text-white font-semibold px-5 py-2.5 rounded-xl disabled:opacity-80 disabled:cursor-not-allowed transition-all shadow-sm hover:shadow-md dark:shadow-lg dark:hover:shadow-2xl active:scale-95 focus:outline-none focus:ring-2 focus:ring-blue-400/30 flex items-center space-x-2"
             >
               <Send className="w-4 h-4" />
               <span className="hidden sm:inline">Send</span>
             </button>
           </div>
+
+          {/* Hint text */}
           <div className="flex items-center justify-between px-1">
             <p className="text-xs text-slate-500">
-              Press{" "}
-              <kbd className="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-400">
+              This session is anonymous and temporary • Press{" "}
+              <kbd className="px-1 py-0.5 bg-slate-100 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700">
                 Enter
               </kbd>{" "}
               to send,{" "}
-              <kbd className="px-1.5 py-0.5 bg-slate-800 rounded border border-slate-700 text-slate-400">
+              <kbd className="px-1.5 py-0.5 bg-slate-100 dark:bg-slate-800 rounded border border-slate-300 dark:border-slate-700 text-slate-400">
                 Shift+Enter
               </kbd>{" "}
               for new line

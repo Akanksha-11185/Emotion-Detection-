@@ -1,10 +1,56 @@
-env/ 
-.venv/ 
-.env 
-logs/ 
-*.pyc 
-__pycache__/ 
-.idea/ 
-.vscode/ 
-*.sqlite3 
-*.log 
+# --------------------
+# Environment & Python
+# --------------------
+env/
+.venv/
+venv/
+.env
+.env.*
+secrets.*
+
+# Python Cache & Artifacts
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# --------------------
+# Logging & Data
+# --------------------
+logs/
+*.log
+*.sqlite3
+data/raw/
+models/
+saved_checkpoints/
+*.ckpt
+*.pt
+*.tsv
+
+# --------------------
+# Frontend (Node) & Build
+# --------------------
+node_modules/
+emotion-site/node_modules/
+emotion-site/.vite/
+emotion-site/dist/
+
+# --------------------
+# IDE & OS Files
+# --------------------
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# --------------------
+# Jupyter
+# --------------------
+.ipynb_checkpoints/
+
+# --------------------
+# Project specific
+# --------------------
+uploads/
+emotion-site/.env
+emotion-support-app/.env
