@@ -44,7 +44,7 @@ Respond empathetically.
 """
 
     response = client.chat.completions.create(
-        model="llama-3.1-70b-versatile",
+        model="llama-3.1-8b-instant",
 
         messages=[
             {"role": "system", "content": SYSTEM_PROMPT},
